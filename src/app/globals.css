@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* dark */
+/* bg #050B2F */
+/* primary #2CBBFF */
+/* secondary #070E36 */
+/* text #fff */
+
+/* light */
+/* bg #ffffff */
+/* primary #2A7785 */
+/* secondary #D7F2FA */
+/* text #000000 */
+
+.layout {
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Autour+One&family=Roboto+Slab:wght@300;400;500;600;700&display=swap");
+
+* {
+  font-family: "Roboto Slab", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --dark_bg: #050b2f;
+  --dark_primary: #21bbff;
+  --dark_secondary: #72c8e5;
+  --dark_text: #ffffff;
+  --light_bg: #ffffff;
+  --light_primary: #2a7785;
+  --light_secondary: #d7f2fa;
+  --light_text: #000000;
+
+  --swiper-navigation-size: 12px !important;
+  --swiper-theme-color: #000 !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(216, 216, 216);
+  border-radius: 40px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+* {
+  font-family: "Roboto Slab", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Autour One", sans-serif;
+  font-weight: 600;
+}
+
+.box_shadow {
+  box-shadow: 0 0 10px #0000001a;
+}
+
+input,
+select,
+textarea {
+  background-color: #fff !important;
+}
+
+input:disabled {
+  background-color: #dbdbdb !important;
+}
+
+.MuiDrawer-paper {
+  border-right: none !important;
+}
