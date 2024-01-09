@@ -2,7 +2,7 @@
 import Form from "@/components/Forms/Form";
 import { SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { signInSchema } from "@/schemas/signin";
+import { signInSchema } from "@/schemas/user";
 import FormInput from "@/components/Forms/FormInput";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -63,7 +63,7 @@ const SingUp = () => {
           </button>
           <Link
             className="text-light_text dark:text-dark_text"
-            href={"/forget"}
+            href={"/forget-password"}
           >
             Forget Password?
           </Link>

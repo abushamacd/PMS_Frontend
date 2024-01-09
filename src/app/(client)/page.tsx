@@ -1,7 +1,10 @@
+import Loading from "../loading";
+
 const HomePage = () => {
   return (
     <>
-      <p className="">PMS</p>
+      <h2 className="dark:text-dark_primary">Heading</h2>
+      <p className="dark:text-dark_primary">PMS</p>
     </>
   );
 };

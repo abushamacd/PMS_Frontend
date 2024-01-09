@@ -3,13 +3,11 @@ import "./globals.css";
 import ThemeProvider from "@/lib/ThemeProviders";
 import Providers from "@/lib/Providers";
 import { Toaster } from "react-hot-toast";
-import "react-quill/dist/quill.snow.css";
 
 export const metadata: Metadata = {
-  title: "Welcome to E-School",
-  description: "A online learning platform. Which help to you quality learning",
-  keywords:
-    "E-Learning, elearning, e-learning, online learning, lms, learning management system, MREN, Web Development ",
+  title: "Welcome to Infinity",
+  description: "Project management system for organization or small agency",
+  keywords: "PMS, Project Management System, project management system.",
 };
 
 export default function RootLayout({
