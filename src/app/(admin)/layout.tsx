@@ -11,6 +11,8 @@ import Container from "@mui/material/Container";
 import { ChevronRight } from "@mui/icons-material";
 // import moment from "moment";
 import Image from "next/image";
+import light_icon from "@/assets/light_icon.png";
+import dark_icon from "@/assets/dark_icon.png";
 import { Sidebar } from "@/sections/Sidebar";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -73,18 +75,26 @@ export default function DashboardLayout({
           }}
         >
           <Link href="/">
-            {/* <Typography
+            <Typography
               sx={{
                 marginRight: "10px",
                 ...(open && { display: "none" }),
               }}
             >
               {theme === "light" ? (
-                <Image className="h-[50px] w-[50px]" alt="hero" src={icon} />
+                <Image
+                  className="h-[40px] w-[50px]"
+                  alt="hero"
+                  src={light_icon}
+                />
               ) : (
-                <Image className="h-[50px] w-[50px]" alt="hero" src={icon} />
+                <Image
+                  className="h-[40px] w-[50px]"
+                  alt="hero"
+                  src={dark_icon}
+                />
               )}
-            </Typography> */}
+            </Typography>
           </Link>
           <IconButton
             edge="start"

@@ -7,13 +7,13 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import { ChevronLeft } from "@mui/icons-material";
-import light_logo from "./../../public/light_logo.png";
-import dark_logo from "./../../public/dark_logo.png";
+import light_icon from "@/assets/light_icon.png";
+import dark_icon from "@/assets/dark_icon.png";
 import Image from "next/image";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Dashboard, CardMembership } from "@mui/icons-material";
+import { Dashboard, CardMembership, ContactPage } from "@mui/icons-material";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
@@ -83,15 +83,15 @@ export const Sidebar = ({
           >
             {theme === "light" ? (
               <Image
-                className="h-[60px] w-[150px]"
+                className="h-[60px] w-[86px] p-2 ml-[50px]"
                 alt="hero"
-                src={light_logo}
+                src={light_icon}
               />
             ) : (
               <Image
-                className="h-[60px] w-[150px]"
+                className="h-[60px] w-[86px] p-2 ml-[50px]"
                 alt="hero"
-                src={dark_logo}
+                src={dark_icon}
               />
             )}
           </Link>
@@ -126,6 +126,25 @@ export const Sidebar = ({
             <ListItemText
               primaryTypographyProps={{ fontSize: "15px" }}
               primary="Dashboard"
+            />
+          </ListItemButton>
+        </Link>
+        <Link href={`/profile`}>
+          <ListItemButton
+            sx={{
+              padding: {
+                xs: "8px",
+                md: "8px 16px",
+              },
+            }}
+            style={{ borderBottom: `1px solid #259FD9` }}
+          >
+            <ListItemIcon>
+              <ContactPage className="text-light_primary dark:text-dark_primary duration-300" />
+            </ListItemIcon>
+            <ListItemText
+              primaryTypographyProps={{ fontSize: "15px" }}
+              primary="Profile"
             />
           </ListItemButton>
         </Link>
