@@ -4,7 +4,6 @@ import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import { ChevronLeft } from "@mui/icons-material";
 import light_icon from "@/assets/light_icon.png";
@@ -13,9 +12,10 @@ import Image from "next/image";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Dashboard, CardMembership, ContactPage } from "@mui/icons-material";
+import { Dashboard, ContactPage } from "@mui/icons-material";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import OnGoing from "@/components/UI/OnGoling";
 
 const drawerWidth: number = 240;
 
@@ -58,11 +58,12 @@ export const Sidebar = ({
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
   return (
     <Drawer
       sx={{}}
       // @ts-ignore
-      bg={theme === "light" ? "#fff" : "#050B2F"}
+      bg={theme === "light" ? "#fff" : "#070E36"}
       color={theme === "light" ? "#000000" : "#fff"}
       variant="permanent"
       open={open}
@@ -118,7 +119,11 @@ export const Sidebar = ({
                 md: "8px 16px",
               },
             }}
-            style={{ borderBottom: `1px solid #259FD9` }}
+            style={
+              theme === "light"
+                ? { borderBottom: `1px solid #2a7785` }
+                : { borderBottom: `1px solid #259FD9` }
+            }
           >
             <ListItemIcon>
               <Dashboard className="text-light_primary dark:text-dark_primary duration-300" />
@@ -137,7 +142,11 @@ export const Sidebar = ({
                 md: "8px 16px",
               },
             }}
-            style={{ borderBottom: `1px solid #259FD9` }}
+            style={
+              theme === "light"
+                ? { borderBottom: `1px solid #2a7785` }
+                : { borderBottom: `1px solid #259FD9` }
+            }
           >
             <ListItemIcon>
               <ContactPage className="text-light_primary dark:text-dark_primary duration-300" />
@@ -149,11 +158,9 @@ export const Sidebar = ({
           </ListItemButton>
         </Link>
       </List>
-      {/* Course */}
-      <div className="text-sm pl-2 text-light_primary dark:text-dark_primary duration-300 mt-2">
-        Course
-      </div>
-      <List sx={{ padding: "10px" }} component="nav">
+      {/* On Going */}
+      <OnGoing />
+      {/* <List sx={{ padding: "10px" }} component="nav">
         <Link href={`/create-course`}>
           <ListItemButton
             sx={{
@@ -166,6 +173,7 @@ export const Sidebar = ({
           >
             <ListItemIcon>
               <CardMembership className="text-light_primary dark:text-dark_primary duration-300" />
+              Title
             </ListItemIcon>
             <ListItemText
               primaryTypographyProps={{ fontSize: "15px" }}
@@ -173,7 +181,7 @@ export const Sidebar = ({
             />
           </ListItemButton>
         </Link>
-      </List>
+      </List> */}
     </Drawer>
   );
 };

@@ -19,3 +19,15 @@ export type IGenericErrorMessage = {
   path: string | number;
   message: string;
 };
+
+export type IProject = {
+  id: string;
+  title: string;
+  icon: string;
+  desc: string;
+  position: number;
+  onGoing: boolean;
+  onGoingPosition: number;
+  createdAt: Date;
+  userId: string;
+};

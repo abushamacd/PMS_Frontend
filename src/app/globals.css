@@ -85,3 +85,7 @@ input:disabled {
 .MuiDrawer-paper {
   border-right: none !important;
 }
+
+.MuiListItemIcon-root {
+  color: unset !important;
+}
