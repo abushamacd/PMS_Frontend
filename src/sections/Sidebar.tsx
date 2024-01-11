@@ -15,7 +15,8 @@ import ListItemText from "@mui/material/ListItemText";
 import { Dashboard, ContactPage } from "@mui/icons-material";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import OnGoing from "@/components/UI/OnGoling";
+import OnGoing from "@/components/UI/OnGoing";
+import Finished from "@/components/UI/Finished";
 
 const drawerWidth: number = 240;
 
@@ -160,28 +161,8 @@ export const Sidebar = ({
       </List>
       {/* On Going */}
       <OnGoing />
-      {/* <List sx={{ padding: "10px" }} component="nav">
-        <Link href={`/create-course`}>
-          <ListItemButton
-            sx={{
-              padding: {
-                xs: "8px",
-                md: "8px 16px",
-              },
-            }}
-            style={{ borderBottom: `1px solid #259FD9` }}
-          >
-            <ListItemIcon>
-              <CardMembership className="text-light_primary dark:text-dark_primary duration-300" />
-              Title
-            </ListItemIcon>
-            <ListItemText
-              primaryTypographyProps={{ fontSize: "15px" }}
-              primary="Create Course"
-            />
-          </ListItemButton>
-        </Link>
-      </List> */}
+      {/* Finished */}
+      <Finished />
     </Drawer>
   );
 };

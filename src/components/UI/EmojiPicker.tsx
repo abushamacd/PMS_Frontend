@@ -46,7 +46,7 @@ const EmojiPicker = (props: {
         }}
       >
         <Picker
-          theme="dark"
+          theme="auto"
           // @ts-ignore
           onSelect={selectEmoji}
           showPreview={false}

@@ -16,10 +16,17 @@ import { useTheme } from "next-themes";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import { SubmitHandler } from "react-hook-form";
+import FormSelectField from "@/components/Forms/FormSelectField";
+import { onGoingOptions } from "@/constants/global";
 
 type updateValues = {
   title: string;
   desc: string;
+};
+
+export type SelectOptions = {
+  label: string;
+  value: boolean;
 };
 
 const Project = ({ params }: { params: any }) => {
@@ -31,10 +38,12 @@ const Project = ({ params }: { params: any }) => {
   const [deleteProject] = useDeleteProjectMutation();
   const [updateProject] = useUpdateProjectMutation();
   const project: any = data;
+  console.log(project);
 
   const defaultValues = {
     title: project?.title || "",
     desc: project?.desc || "",
+    onGoing: project?.onGoing || true,
   };
 
   const handleClickOpen = () => {
@@ -45,7 +54,7 @@ const Project = ({ params }: { params: any }) => {
     setOpen(false);
   };
 
-  const onIconChange = async (icon: any) => {
+  const iconHandler = async (icon: any) => {
     try {
       await updateProject({ id: id, body: { icon: icon } }).unwrap();
       toast.success("Icon updated successfully");
@@ -64,6 +73,11 @@ const Project = ({ params }: { params: any }) => {
   };
 
   const updateHandler: SubmitHandler<updateValues> = async (data: any) => {
+    if (data.onGoing === "true") {
+      data.onGoing = true;
+    } else if (data.onGoing === "false") {
+      data.onGoing = false;
+    }
     try {
       await updateProject({ id: id, body: data }).unwrap();
       toast.success("Project updated successfully");
@@ -79,7 +93,7 @@ const Project = ({ params }: { params: any }) => {
       <div className="flex justify-between relative">
         <div className="md:flex justify-between items-start">
           {/* emoji picker */}
-          <EmojiPicker icon={project?.icon} onChange={onIconChange} />
+          <EmojiPicker icon={project?.icon} onChange={iconHandler} />
           <div className="">
             <h3 className="text-3xl text-light_primary dark:text-dark_primary italic capitalize mb-2">
               {project?.title}
@@ -101,6 +115,16 @@ const Project = ({ params }: { params: any }) => {
           </IconButton>
         </div>
       </div>
+
+      <div className="flex justify-between mt-2">
+        <p className="text-light_primary dark:text-dark_primary text-sm cursor-pointer">
+          Add Section
+        </p>
+        <p className="text-light_text dark:text-dark_text text-sm">
+          {project?.sections?.length} Sections
+        </p>
+      </div>
+
       <Divider
         className="py-1"
         style={
@@ -133,6 +157,14 @@ const Project = ({ params }: { params: any }) => {
                 placeholder="Short description about project"
                 label="Description"
                 required
+              />
+            </div>
+            <div className="my-[10px]">
+              <FormSelectField
+                name="onGoing"
+                options={onGoingOptions as SelectOptions[]}
+                label="Project On Going"
+                placeholder="Select"
               />
             </div>
             <button

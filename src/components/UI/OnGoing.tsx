@@ -4,16 +4,45 @@ import {
   useGetProjectsQuery,
   useUpdateProjectPositionMutation,
 } from "@/redux/api/projectApi";
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { useDebounced } from "@/redux/hooks";
+import {
+  Input,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 
 const OnGoing = () => {
+  const query: Record<string, any> = {};
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(100);
+  const [sortBy, setSortBy] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  query["limit"] = size;
+  query["page"] = page;
+  query["sortBy"] = sortBy;
+  query["sortOrder"] = sortOrder;
+  query["onGoing"] = true;
+
+  const debouncedTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (!!debouncedTerm) {
+    query["searchTerm"] = debouncedTerm;
+  }
+
   const { theme, setTheme } = useTheme();
   const [updateProjectPosition] = useUpdateProjectPositionMutation();
-  const { data, isLoading } = useGetProjectsQuery({});
+  const { data, isLoading } = useGetProjectsQuery({ ...query });
   // @ts-ignore
   const projects: any = data?.projects;
 
@@ -43,8 +72,18 @@ const OnGoing = () => {
   return (
     <div className="">
       <div className="text-sm pl-2 text-light_primary dark:text-dark_primary duration-300 mt-2">
-        On Going
+        On Going ({projects?.length})
       </div>
+      {/* <Input
+        type="text"
+        placeholder="Search..."
+        style={{
+          width: "50%",
+        }}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+        }}
+      /> */}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           key={"list-board-droppable-key"}
