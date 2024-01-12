@@ -31,3 +31,10 @@ export type IProject = {
   createdAt: Date;
   userId: string;
 };
+
+export type ISection = {
+  id: string;
+  title: string;
+  createdAt: Date;
+  projectId: string;
+};

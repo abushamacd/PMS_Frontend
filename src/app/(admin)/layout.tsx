@@ -155,7 +155,7 @@ export default function DashboardLayout({
         >
           <div
             style={{ height: `calc(100vh - 94px)` }}
-            className="bg-light_bg dark:bg-dark_bg rounded-lg p-4 overflow-y-auto"
+            className="bg-light_bg dark:bg-dark_bg rounded-lg p-4 overflow-auto"
           >
             {children}
           </div>

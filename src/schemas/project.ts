@@ -4,3 +4,6 @@ export const projectSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
   desc: yup.string().required("Description is required"),
 });
+export const sectionSchema = yup.object().shape({
+  title: yup.string().required("Title is required"),
+});

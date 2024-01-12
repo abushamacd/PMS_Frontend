@@ -18,6 +18,8 @@ import FormInput from "@/components/Forms/FormInput";
 import { SubmitHandler } from "react-hook-form";
 import FormSelectField from "@/components/Forms/FormSelectField";
 import { onGoingOptions } from "@/constants/global";
+import { useRouter } from "next/navigation";
+import Section from "@/components/UI/Section";
 
 type updateValues = {
   title: string;
@@ -30,15 +32,14 @@ export type SelectOptions = {
 };
 
 const Project = ({ params }: { params: any }) => {
-  const { theme, setTheme } = useTheme();
   const { id } = params;
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const { data, isLoading } = useGetProjectQuery(id);
   const [deleteProject] = useDeleteProjectMutation();
   const [updateProject] = useUpdateProjectMutation();
   const project: any = data;
-  console.log(project);
 
   const defaultValues = {
     title: project?.title || "",
@@ -67,6 +68,7 @@ const Project = ({ params }: { params: any }) => {
     try {
       await deleteProject(id);
       toast.success("Project deleted successfully");
+      router.push("/dashboard");
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }
@@ -116,23 +118,8 @@ const Project = ({ params }: { params: any }) => {
         </div>
       </div>
 
-      <div className="flex justify-between mt-2">
-        <p className="text-light_primary dark:text-dark_primary text-sm cursor-pointer">
-          Add Section
-        </p>
-        <p className="text-light_text dark:text-dark_text text-sm">
-          {project?.sections?.length} Sections
-        </p>
-      </div>
-
-      <Divider
-        className="py-1"
-        style={
-          theme === "light"
-            ? { borderBottom: `1px solid #2a7785` }
-            : { borderBottom: `1px solid #259FD9` }
-        }
-      />
+      {/* Section */}
+      <Section project={project} />
 
       <Dialog
         open={open}
@@ -176,6 +163,8 @@ const Project = ({ params }: { params: any }) => {
           </Form>
         </div>
       </Dialog>
+
+      {/* Sections */}
     </div>
   );
 };

@@ -33,7 +33,7 @@ export const authApi = baseApi.injectEndpoints({
         url: `/project/${id}`,
         method: "GET",
       }),
-      providesTags: [tagTypes.project],
+      providesTags: [tagTypes.project, tagTypes.section],
     }),
     updateProjectPosition: build.mutation({
       query: (data: any) => ({
