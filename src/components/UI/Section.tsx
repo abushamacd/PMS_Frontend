@@ -1,4 +1,11 @@
-import { Box, Dialog, Divider } from "@mui/material";
+import {
+  Box,
+  Card,
+  Dialog,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useTheme } from "next-themes";
 import FormInput from "../Forms/FormInput";
 import Form from "../Forms/Form";
@@ -7,20 +14,53 @@ import { SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { sectionSchema } from "@/schemas/project";
 import toast from "react-hot-toast";
-import { useCreateSectionMutation } from "@/redux/api/sectionApi";
+import {
+  useCreateSectionMutation,
+  useUpdateSectionMutation,
+} from "@/redux/api/sectionApi";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  MdDeleteForever,
+  MdOutlineModeEdit,
+  MdOutlineAddBox,
+} from "react-icons/md";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setEdit } from "@/redux/feature/siteSlice";
+import {
+  useCreateTaskMutation,
+  useUpdateTaskPositionMutation,
+} from "@/redux/api/taskApi";
 
 type sectionFormValues = {
   title: string;
   desc: string;
 };
 
+type updateValues = {
+  title: string;
+};
+
 const Section = ({ project }: { project: any }) => {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const { edit } = useAppSelector((state) => state.site);
   const [createSection] = useCreateSectionMutation();
+  const [updateSection] = useUpdateSectionMutation();
+  const [updateTaskPosition] = useUpdateTaskPositionMutation();
+  const [createTask] = useCreateTaskMutation();
 
-  console.log(project.sections);
+  // console.log(project?.sections);
+
+  const openEdit = (section: any) => {
+    dispatch(setEdit({ data: section, state: true }));
+  };
+
+  const closeEdit = () => {
+    dispatch(setEdit({ data: null, state: false }));
+  };
+
+  // console.log(project.sections);
   const sections = project?.sections;
 
   const createHandler: SubmitHandler<sectionFormValues> = async (data: any) => {
@@ -28,6 +68,42 @@ const Section = ({ project }: { project: any }) => {
     try {
       await createSection(data).unwrap();
       toast.success("Section create successfully");
+    } catch (err: any) {
+      toast.error(`${err.data?.message}`);
+    }
+  };
+
+  const defaultValues = {
+    title: edit?.data?.title || "",
+  };
+
+  const updateHandler: SubmitHandler<updateValues> = async (data: any) => {
+    try {
+      await updateSection({ id: edit?.data?.id, body: data }).unwrap();
+      toast.success("Section updated successfully");
+    } catch (err: any) {
+      toast.error(`${err.data?.message}`);
+    }
+  };
+
+  const deleteHandler = async (id: string) => {
+    console.log(id);
+    // try {
+    //   await deleteProject(id);
+    //   toast.success("Project deleted successfully");
+    //   router.push("/dashboard");
+    // } catch (err: any) {
+    //   toast.error(`${err.data?.message}`);
+    // }
+  };
+
+  const createTaskHandle = async (section: any) => {
+    const data: any = {};
+    data.sectionId = section?.id;
+
+    try {
+      const res = await createTask(data).unwrap();
+      toast.success("Task create successfully");
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }
@@ -48,36 +124,47 @@ const Section = ({ project }: { project: any }) => {
     source: any;
     destination: any;
   }) => {
-    // if (!destination) return
-    // const sourceColIndex = data.findIndex(e => e.id === source.droppableId)
-    // const destinationColIndex = data.findIndex(e => e.id === destination.droppableId)
-    // const sourceCol = data[sourceColIndex]
-    // const destinationCol = data[destinationColIndex]
-    // const sourceSectionId = sourceCol.id
-    // const destinationSectionId = destinationCol.id
-    // const sourceTasks = [...sourceCol.tasks]
-    // const destinationTasks = [...destinationCol.tasks]
-    // if (source.droppableId !== destination.droppableId) {
-    //   const [removed] = sourceTasks.splice(source.index, 1)
-    //   destinationTasks.splice(destination.index, 0, removed)
-    //   data[sourceColIndex].tasks = sourceTasks
-    //   data[destinationColIndex].tasks = destinationTasks
-    // } else {
-    //   const [removed] = destinationTasks.splice(source.index, 1)
-    //   destinationTasks.splice(destination.index, 0, removed)
-    //   data[destinationColIndex].tasks = destinationTasks
-    // }
-    // try {
-    //   await taskApi.updatePosition(boardId, {
-    //     resourceList: sourceTasks,
-    //     destinationList: destinationTasks,
-    //     resourceSectionId: sourceSectionId,
-    //     destinationSectionId: destinationSectionId
-    //   })
-    //   setData(data)
-    // } catch (err) {
-    //   alert(err)
-    // }
+    const data = sections;
+    if (!destination) {
+      return;
+    }
+    const sourceColIndex = data.findIndex(
+      (e: any) => e.id === source.droppableId
+    );
+    const destinationColIndex = data.findIndex(
+      (e: any) => e.id === destination.droppableId
+    );
+    const sourceCol = data[sourceColIndex];
+    const destinationCol = data[destinationColIndex];
+    const sourceSectionId = sourceCol.id;
+    const destinationSectionId = destinationCol.id;
+    const sourceTasks = [...sourceCol.tasks];
+    const destinationTasks = [...destinationCol.tasks];
+    if (source.droppableId !== destination.droppableId) {
+      const [removed] = sourceTasks.splice(source.index, 1);
+      destinationTasks.splice(destination.index, 0, removed);
+      // console.log(data[sourceColIndex].tasks, sourceTasks);
+      // data[sourceColIndex].tasks = sourceTasks;
+      // data[destinationColIndex].tasks = destinationTasks;
+    } else {
+      const [removed] = destinationTasks.splice(source.index, 1);
+      destinationTasks.splice(destination.index, 0, removed);
+      // data[destinationColIndex].tasks = destinationTasks;
+    }
+
+    const body: any = {
+      resourceList: sourceTasks,
+      destinationList: destinationTasks,
+      resourceSectionId: sourceSectionId,
+      destinationSectionId: destinationSectionId,
+    };
+    // console.log(body);
+    try {
+      await updateTaskPosition(body).unwrap();
+      toast.success("Position update successfully");
+    } catch (err: any) {
+      toast.error(`${err.data?.message}`);
+    }
   };
 
   return (
@@ -104,81 +191,89 @@ const Section = ({ project }: { project: any }) => {
       />
       {/* show section */}
       <DragDropContext onDragEnd={onDragEnd}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "flex-start",
-            width: "calc(100vw - 300px)",
-            // width: "calc(100vw)",
-            overflowX: "auto",
-          }}
+        <div
+          className="flex items-start overflow-auto w-[100vh-300px]"
+          // sx={{
+          //   display: "flex",
+          //   alignItems: "flex-start",
+          //   width: "calc(100vw - 300px)",
+          //   // width: "calc(100vw)",
+          //   overflowX: "auto",
+          // }}
         >
           {sections?.map((section: any) => (
             <div key={section.id} style={{ width: "300px" }}>
               <Droppable key={section.id} droppableId={section.id}>
                 {(provided) => (
-                  <Box
+                  <div
+                    className="w-[300px] py-4 pr-4"
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    sx={{
-                      width: "300px",
-                      padding: "10px",
-                      marginRight: "10px",
-                    }}
+                    // sx={{
+                    //   width: "300px",
+                    //   padding: "",
+                    //   marginRight: "10px",
+                    // }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <p className="">{section?.title}</p>
-                      {/* <TextField
-                          value={section.title}
-                          onChange={(e) => updateSectionTitle(e, section.id)}
-                          placeholder='Untitled'
-                          variant='outlined'
-                          sx={{
-                            flexGrow: 1,
-                            '& .MuiOutlinedInput-input': { padding: 0 },
-                            '& .MuiOutlinedInput-notchedOutline': { border: 'unset ' },
-                            '& .MuiOutlinedInput-root': { fontSize: '1rem', fontWeight: '700' }
-                          }}
-                        /> */}
-                      {/* <IconButton
-                          variant='outlined'
-                          size='small'
-                          sx={{
-                            color: 'gray',
-                            '&:hover': { color: 'green' }
-                          }}
-                          onClick={() => createTask(section.id)}
-                        >
-                          <AddOutlinedIcon />
-                        </IconButton> */}
-                      {/* <IconButton
-                          variant='outlined'
-                          size='small'
-                          sx={{
-                            color: 'gray',
-                            '&:hover': { color: 'red' }
-                          }}
-                          onClick={() => deleteSection(section.id)}
-                        >
-                          <DeleteOutlinedIcon />
-                        </IconButton> */}
-                    </Box>
+                    <div className="flex justify-between items-center mb-[10px] border p-2 dark:border-dark_primary border-light_primary rounded-md">
+                      <p className="text-md text-light_primary dark:text-dark_primary italic capitalize mb-2 border-b ">
+                        {section?.title}
+                      </p>
+                      <div className="">
+                        <IconButton color="success">
+                          <MdOutlineAddBox
+                            onClick={() => {
+                              createTaskHandle(section);
+                            }}
+                          />
+                        </IconButton>
+                        <IconButton color="primary">
+                          <MdOutlineModeEdit
+                            onClick={() => openEdit(section)}
+                          />
+                        </IconButton>
+                        <IconButton color="error">
+                          <MdDeleteForever
+                            className=""
+                            onClick={() => deleteHandler(section?.id)}
+                          />
+                        </IconButton>
+                      </div>
+                    </div>
                     {/* tasks */}
-
+                    {section?.tasks?.map((task: any, index: any) => (
+                      <Draggable
+                        key={task.id}
+                        draggableId={task.id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <Card
+                            className="border-b p-[10px] mb-[10px] dark:!bg-dark_secondary dark:!text-dark_text dark:!border-b-dark_primary !bg-light_secondary !text-light_text !border-b-light_primary"
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            sx={{
+                              cursor: snapshot.isDragging
+                                ? "grab"
+                                : "pointer!important",
+                            }}
+                            // onClick={() => setSelectedTask(task)}
+                          >
+                            <Typography>
+                              {task.title === "" ? "Untitled" : task.title}
+                            </Typography>
+                          </Card>
+                        )}
+                      </Draggable>
+                    ))}
                     {provided.placeholder}
-                  </Box>
+                  </div>
                 )}
               </Droppable>
             </div>
           ))}
-        </Box>
+        </div>
       </DragDropContext>
       {/* Create section model */}
       <Dialog
@@ -205,6 +300,32 @@ const Section = ({ project }: { project: any }) => {
               className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
             >
               Create
+            </button>
+          </Form>
+        </div>
+      </Dialog>
+      {/* Update section model */}
+      <Dialog
+        open={edit?.editState}
+        onClose={closeEdit}
+        aria-labelledby="customized-dialog-title"
+      >
+        <div className="bg-light_secondary dark:bg-dark_secondary p-4 w-[300px] md:w-[400px]">
+          <Form submitHandler={updateHandler} defaultValues={defaultValues}>
+            <div className="my-[10px]">
+              <FormInput
+                name="title"
+                type="text"
+                placeholder="Type section title"
+                label="Section Title"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
+            >
+              Update
             </button>
           </Form>
         </div>

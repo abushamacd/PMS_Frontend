@@ -150,7 +150,7 @@ const Project = ({ params }: { params: any }) => {
               <FormSelectField
                 name="onGoing"
                 options={onGoingOptions as SelectOptions[]}
-                label="Project On Going"
+                label="Project Status"
                 placeholder="Select"
               />
             </div>

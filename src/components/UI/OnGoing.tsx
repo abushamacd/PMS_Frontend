@@ -72,7 +72,7 @@ const OnGoing = () => {
   return (
     <div className="">
       <div className="text-sm pl-2 text-light_primary dark:text-dark_primary duration-300 mt-2">
-        On Going ({projects?.length})
+        Running ({projects?.length})
       </div>
       {/* <Input
         type="text"

@@ -38,3 +38,12 @@ export type ISection = {
   createdAt: Date;
   projectId: string;
 };
+
+export type ITask = {
+  id: string;
+  title: string;
+  desc: string;
+  position: number;
+  createdAt: Date;
+  sectionId: string;
+};
