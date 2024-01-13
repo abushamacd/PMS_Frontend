@@ -2,7 +2,7 @@ import { IProject, IMeta } from "@/types";
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi";
 
-export const authApi = baseApi.injectEndpoints({
+export const projectApi = baseApi.injectEndpoints({
   endpoints: (build: any) => ({
     createProject: build.mutation({
       query: (data: any) => ({
@@ -68,4 +68,4 @@ export const {
   useGetProjectQuery,
   useUpdateProjectMutation,
   useDeleteProjectMutation,
-} = authApi;
+} = projectApi;

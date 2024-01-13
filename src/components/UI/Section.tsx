@@ -16,6 +16,7 @@ import { sectionSchema } from "@/schemas/project";
 import toast from "react-hot-toast";
 import {
   useCreateSectionMutation,
+  useDeleteSectionMutation,
   useUpdateSectionMutation,
 } from "@/redux/api/sectionApi";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -49,6 +50,7 @@ const Section = ({ project }: { project: any }) => {
   const [createSection] = useCreateSectionMutation();
   const [updateSection] = useUpdateSectionMutation();
   const [updateTaskPosition] = useUpdateTaskPositionMutation();
+  const [deleteSection] = useDeleteSectionMutation();
   const [createTask] = useCreateTaskMutation();
 
   const sections = project?.sections;
@@ -79,14 +81,12 @@ const Section = ({ project }: { project: any }) => {
   };
 
   const deleteHandler = async (id: string) => {
-    console.log(id);
-    // try {
-    //   await deleteProject(id);
-    //   toast.success("Project deleted successfully");
-    //   router.push("/dashboard");
-    // } catch (err: any) {
-    //   toast.error(`${err.data?.message}`);
-    // }
+    try {
+      await deleteSection(id);
+      toast.success("Project deleted successfully");
+    } catch (err: any) {
+      toast.error(`${err.data?.message}`);
+    }
   };
 
   const createTaskHandle = async (section: any) => {

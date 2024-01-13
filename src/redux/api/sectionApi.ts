@@ -2,7 +2,7 @@ import { ISection, IMeta } from "@/types";
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi";
 
-export const authApi = baseApi.injectEndpoints({
+export const sectionApi = baseApi.injectEndpoints({
   endpoints: (build: any) => ({
     createSection: build.mutation({
       query: (data: any) => ({
@@ -68,4 +68,4 @@ export const {
   useGetSectionQuery,
   useUpdateSectionMutation,
   useDeleteSectionMutation,
-} = authApi;
+} = sectionApi;

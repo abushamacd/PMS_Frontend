@@ -33,8 +33,9 @@ const Dashboard = () => {
     data: any
   ) => {
     try {
-      const res = await createProject(data).unwrap();
+      await createProject(data).unwrap();
       toast.success("Project create successfully");
+      setOpen(false);
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }

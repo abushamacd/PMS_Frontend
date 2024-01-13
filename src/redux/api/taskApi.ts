@@ -2,7 +2,7 @@ import { ITask, IMeta } from "@/types";
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi";
 
-export const authApi = baseApi.injectEndpoints({
+export const taskApi = baseApi.injectEndpoints({
   endpoints: (build: any) => ({
     createTask: build.mutation({
       query: (data: any) => ({
@@ -68,4 +68,4 @@ export const {
   useGetTaskQuery,
   useUpdateTaskMutation,
   useDeleteTaskMutation,
-} = authApi;
+} = taskApi;

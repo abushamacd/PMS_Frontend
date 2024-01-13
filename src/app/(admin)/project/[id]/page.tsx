@@ -73,6 +73,7 @@ const Project = ({ params }: { params: any }) => {
     try {
       await updateProject({ id: id, body: data }).unwrap();
       toast.success("Project updated successfully");
+      setOpen(false);
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }
