@@ -25,11 +25,12 @@ import {
   MdOutlineAddBox,
 } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setEdit } from "@/redux/feature/siteSlice";
+import { setEdit, setTask } from "@/redux/feature/siteSlice";
 import {
   useCreateTaskMutation,
   useUpdateTaskPositionMutation,
 } from "@/redux/api/taskApi";
+import TaskModal from "./TaskModal";
 
 type sectionFormValues = {
   title: string;
@@ -44,23 +45,26 @@ const Section = ({ project }: { project: any }) => {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const { edit } = useAppSelector((state) => state.site);
+  const { edit, task } = useAppSelector((state) => state.site);
   const [createSection] = useCreateSectionMutation();
   const [updateSection] = useUpdateSectionMutation();
   const [updateTaskPosition] = useUpdateTaskPositionMutation();
   const [createTask] = useCreateTaskMutation();
 
-  // console.log(project?.sections);
+  console.log(task);
 
   const openEdit = (section: any) => {
     dispatch(setEdit({ data: section, state: true }));
+  };
+
+  const openTask = (section: any) => {
+    dispatch(setTask({ data: section, state: true }));
   };
 
   const closeEdit = () => {
     dispatch(setEdit({ data: null, state: false }));
   };
 
-  // console.log(project.sections);
   const sections = project?.sections;
 
   const createHandler: SubmitHandler<sectionFormValues> = async (data: any) => {
@@ -143,13 +147,9 @@ const Section = ({ project }: { project: any }) => {
     if (source.droppableId !== destination.droppableId) {
       const [removed] = sourceTasks.splice(source.index, 1);
       destinationTasks.splice(destination.index, 0, removed);
-      // console.log(data[sourceColIndex].tasks, sourceTasks);
-      // data[sourceColIndex].tasks = sourceTasks;
-      // data[destinationColIndex].tasks = destinationTasks;
     } else {
       const [removed] = destinationTasks.splice(source.index, 1);
       destinationTasks.splice(destination.index, 0, removed);
-      // data[destinationColIndex].tasks = destinationTasks;
     }
 
     const body: any = {
@@ -158,7 +158,6 @@ const Section = ({ project }: { project: any }) => {
       resourceSectionId: sourceSectionId,
       destinationSectionId: destinationSectionId,
     };
-    // console.log(body);
     try {
       await updateTaskPosition(body).unwrap();
       toast.success("Position update successfully");
@@ -258,7 +257,7 @@ const Section = ({ project }: { project: any }) => {
                                 ? "grab"
                                 : "pointer!important",
                             }}
-                            // onClick={() => setSelectedTask(task)}
+                            onClick={() => openTask(task)}
                           >
                             <Typography>
                               {task.title === "" ? "Untitled" : task.title}
@@ -330,6 +329,8 @@ const Section = ({ project }: { project: any }) => {
           </Form>
         </div>
       </Dialog>
+      {/* Task modal */}
+      <TaskModal />
     </>
   );
 };

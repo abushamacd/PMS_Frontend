@@ -10,6 +10,10 @@ const initialState = {
     editState: false,
     data: null,
   },
+  task: {
+    taskState: false,
+    data: null,
+  },
 };
 
 const siteSlice = createSlice({
@@ -27,9 +31,13 @@ const siteSlice = createSlice({
       state.edit.editState = action.payload.state;
       state.edit.data = action.payload.data;
     },
+    setTask: (state, action) => {
+      state.task.taskState = action.payload.state;
+      state.task.data = action.payload.data;
+    },
   },
 });
 
-export const { setCollapsed, setView, setEdit } = siteSlice.actions;
+export const { setCollapsed, setView, setEdit, setTask } = siteSlice.actions;
 
 export default siteSlice.reducer;
