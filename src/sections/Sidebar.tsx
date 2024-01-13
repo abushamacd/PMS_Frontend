@@ -56,6 +56,7 @@ export const Sidebar = ({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { theme, setTheme } = useTheme();
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -159,8 +160,10 @@ export const Sidebar = ({
           </ListItemButton>
         </Link>
       </List>
-      {/* On Going */}
+
+      {/* Running */}
       <OnGoing />
+
       {/* Finished */}
       <Finished />
     </Drawer>

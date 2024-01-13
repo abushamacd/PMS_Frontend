@@ -42,30 +42,20 @@ type updateValues = {
 };
 
 const Section = ({ project }: { project: any }) => {
+  const dispatch = useAppDispatch();
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
-  const dispatch = useAppDispatch();
   const { edit, task } = useAppSelector((state) => state.site);
   const [createSection] = useCreateSectionMutation();
   const [updateSection] = useUpdateSectionMutation();
   const [updateTaskPosition] = useUpdateTaskPositionMutation();
   const [createTask] = useCreateTaskMutation();
 
-  console.log(task);
-
-  const openEdit = (section: any) => {
-    dispatch(setEdit({ data: section, state: true }));
-  };
-
-  const openTask = (section: any) => {
-    dispatch(setTask({ data: section, state: true }));
-  };
-
-  const closeEdit = () => {
-    dispatch(setEdit({ data: null, state: false }));
-  };
-
   const sections = project?.sections;
+
+  const defaultValues = {
+    title: edit?.data?.title || "",
+  };
 
   const createHandler: SubmitHandler<sectionFormValues> = async (data: any) => {
     data.projectId = project?.id;
@@ -75,10 +65,6 @@ const Section = ({ project }: { project: any }) => {
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }
-  };
-
-  const defaultValues = {
-    title: edit?.data?.title || "",
   };
 
   const updateHandler: SubmitHandler<updateValues> = async (data: any) => {
@@ -104,13 +90,24 @@ const Section = ({ project }: { project: any }) => {
   const createTaskHandle = async (section: any) => {
     const data: any = {};
     data.sectionId = section?.id;
-
     try {
-      const res = await createTask(data).unwrap();
+      await createTask(data).unwrap();
       toast.success("Task create successfully");
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }
+  };
+
+  const openEdit = (section: any) => {
+    dispatch(setEdit({ data: section, state: true }));
+  };
+
+  const openTask = (section: any) => {
+    dispatch(setTask({ data: section, state: true }));
+  };
+
+  const closeEdit = () => {
+    dispatch(setEdit({ data: null, state: false }));
   };
 
   const handleCreateModal = () => {
@@ -129,21 +126,25 @@ const Section = ({ project }: { project: any }) => {
     destination: any;
   }) => {
     const data = sections;
+
     if (!destination) {
       return;
     }
+
     const sourceColIndex = data.findIndex(
       (e: any) => e.id === source.droppableId
     );
     const destinationColIndex = data.findIndex(
       (e: any) => e.id === destination.droppableId
     );
+
     const sourceCol = data[sourceColIndex];
     const destinationCol = data[destinationColIndex];
     const sourceSectionId = sourceCol.id;
     const destinationSectionId = destinationCol.id;
     const sourceTasks = [...sourceCol.tasks];
     const destinationTasks = [...destinationCol.tasks];
+
     if (source.droppableId !== destination.droppableId) {
       const [removed] = sourceTasks.splice(source.index, 1);
       destinationTasks.splice(destination.index, 0, removed);
@@ -158,6 +159,7 @@ const Section = ({ project }: { project: any }) => {
       resourceSectionId: sourceSectionId,
       destinationSectionId: destinationSectionId,
     };
+
     try {
       await updateTaskPosition(body).unwrap();
       toast.success("Position update successfully");
@@ -188,18 +190,10 @@ const Section = ({ project }: { project: any }) => {
             : { borderBottom: `1px solid #259FD9` }
         }
       />
+
       {/* show section */}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div
-          className="flex items-start overflow-auto w-[100vh-300px]"
-          // sx={{
-          //   display: "flex",
-          //   alignItems: "flex-start",
-          //   width: "calc(100vw - 300px)",
-          //   // width: "calc(100vw)",
-          //   overflowX: "auto",
-          // }}
-        >
+        <div className="flex items-start overflow-auto w-[100vh-300px]">
           {sections?.map((section: any) => (
             <div key={section.id} style={{ width: "300px" }}>
               <Droppable key={section.id} droppableId={section.id}>
@@ -208,11 +202,6 @@ const Section = ({ project }: { project: any }) => {
                     className="w-[300px] py-4 pr-4"
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    // sx={{
-                    //   width: "300px",
-                    //   padding: "",
-                    //   marginRight: "10px",
-                    // }}
                   >
                     <div className="flex justify-between items-center mb-[10px] border p-2 dark:border-dark_primary border-light_primary rounded-md">
                       <p className="text-md text-light_primary dark:text-dark_primary italic capitalize mb-2 border-b ">
@@ -239,6 +228,7 @@ const Section = ({ project }: { project: any }) => {
                         </IconButton>
                       </div>
                     </div>
+
                     {/* tasks */}
                     {section?.tasks?.map((task: any, index: any) => (
                       <Draggable

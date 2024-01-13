@@ -9,15 +9,11 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import { ChevronRight } from "@mui/icons-material";
-// import moment from "moment";
 import Image from "next/image";
 import light_icon from "@/assets/light_icon.png";
 import dark_icon from "@/assets/dark_icon.png";
 import { Sidebar } from "@/sections/Sidebar";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import ThemeSwitcher from "@/components/UI/ThemeSwitcher";
 import Notification from "@/components/UI/Notification";
@@ -57,6 +53,7 @@ export default function DashboardLayout({
   const [open, setOpen] = React.useState(true);
   const [toggle, setToggle] = React.useState("");
   const { theme, setTheme } = useTheme();
+
   const toggleDrawer = () => {
     setOpen(!open);
   };

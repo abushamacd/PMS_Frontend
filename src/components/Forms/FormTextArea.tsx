@@ -6,6 +6,7 @@ type TextAreaProps = {
   rows?: number;
   value?: string;
   placeholder?: string;
+  required?: boolean;
 };
 
 const FormTextArea = ({
@@ -14,11 +15,24 @@ const FormTextArea = ({
   rows,
   value,
   placeholder,
+  required,
 }: TextAreaProps) => {
   const { control } = useFormContext();
   return (
     <div className={`flex flex-col  w-full`}>
-      {label ? label : null}
+      <h1 className="mb-1 text-light_text dark:text-dark_text font-medium text-sm">
+        {label ? label : null}
+        {required && label ? (
+          <span
+            style={{
+              color: "red",
+              marginLeft: "2px",
+            }}
+          >
+            *
+          </span>
+        ) : null}
+      </h1>
       <Controller
         name={name}
         control={control}

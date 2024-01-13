@@ -1,31 +1,17 @@
 import { setTask } from "@/redux/feature/siteSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { Box, Dialog, IconButton } from "@mui/material";
+import { Dialog, IconButton } from "@mui/material";
 import { SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
 import { MdDeleteForever } from "react-icons/md";
 import moment from "moment";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { useEffect, useRef } from "react";
-
-// import '../../css/custom-editor.css'
-
-const modalStyle = {
-  outline: "none",
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "50%",
-  bgcolor: "background.paper",
-  border: "0px solid #000",
-  boxShadow: 24,
-  p: 1,
-  height: "80%",
-};
+import FormTextArea from "../Forms/FormTextArea";
+import {
+  useDeleteTaskMutation,
+  useUpdateTaskMutation,
+} from "@/redux/api/taskApi";
 
 type updateValues = {
   title: string;
@@ -33,33 +19,9 @@ type updateValues = {
 
 const TaskModal = () => {
   const dispatch = useAppDispatch();
-
+  const [updateTask] = useUpdateTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
   const { task } = useAppSelector((state) => state.site);
-
-  const editorWrapperRef = useRef();
-
-  useEffect(() => {
-    // setTask(props.task)
-    // setTitle(props.task !== undefined ? props.task.title : '')
-    // setContent(props.task !== undefined ? props.task.content : '')
-    // if (props.task !== undefined) {
-    //   isModalClosed = false
-
-    updateEditorHeight();
-    // }
-  }, [task.data]);
-
-  const updateEditorHeight = () => {
-    setTimeout(() => {
-      if (editorWrapperRef.current) {
-        const box = editorWrapperRef.current;
-        // @ts-ignore
-        box.querySelector(".ck-editor__editable_inline").style.height =
-          // @ts-ignore
-          box.offsetHeight - 50 + "px";
-      }
-    }, 500);
-  };
 
   const closeTask = () => {
     dispatch(setTask({ data: null, state: false }));
@@ -71,13 +33,23 @@ const TaskModal = () => {
   };
 
   const updateHandler: SubmitHandler<updateValues> = async (data: any) => {
-    console.log(data);
-    // try {
-    //   await updateSection({ id: edit?.data?.id, body: data }).unwrap();
-    //   toast.success("Section updated successfully");
-    // } catch (err: any) {
-    //   toast.error(`${err.data?.message}`);
-    // }
+    try {
+      await updateTask({ id: task?.data?.id, body: data }).unwrap();
+      toast.success("Task updated successfully");
+      dispatch(setTask({ data: null, state: false }));
+    } catch (err: any) {
+      toast.error(`${err.data?.message}`);
+    }
+  };
+
+  const deleteHandler = async (id: string) => {
+    try {
+      await deleteTask(id);
+      toast.success("Task deleted successfully");
+      dispatch(setTask({ data: null, state: false }));
+    } catch (err: any) {
+      toast.error(`${err.data?.message}`);
+    }
   };
 
   return (
@@ -92,7 +64,7 @@ const TaskModal = () => {
             <IconButton color="error">
               <MdDeleteForever
                 className=""
-                // onClick={() => deleteHandler(section?.id)}
+                onClick={() => deleteHandler(task?.data?.id)}
               />
             </IconButton>
           </div>
@@ -109,6 +81,9 @@ const TaskModal = () => {
                 label="Task Title"
                 required
               />
+            </div>
+            <div className="my-[10px]">
+              <FormTextArea name="desc" label="Description" rows={4} required />
             </div>
             <div className="my-[10px]"></div>
             <button

@@ -7,12 +7,10 @@ import {
   useGetProjectQuery,
   useUpdateProjectMutation,
 } from "@/redux/api/projectApi";
-import { Box, Dialog, IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Dialog, IconButton } from "@mui/material";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { MdDeleteForever, MdOutlineModeEdit } from "react-icons/md";
-import Divider from "@mui/material/Divider";
-import { useTheme } from "next-themes";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import { SubmitHandler } from "react-hook-form";
@@ -35,24 +33,16 @@ const Project = ({ params }: { params: any }) => {
   const { id } = params;
   const router = useRouter();
   const [open, setOpen] = useState(false);
-
   const { data, isLoading } = useGetProjectQuery(id);
   const [deleteProject] = useDeleteProjectMutation();
   const [updateProject] = useUpdateProjectMutation();
+
   const project: any = data;
 
   const defaultValues = {
     title: project?.title || "",
     desc: project?.desc || "",
     onGoing: project?.onGoing || true,
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   const iconHandler = async (icon: any) => {
@@ -88,13 +78,21 @@ const Project = ({ params }: { params: any }) => {
     }
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   if (isLoading) return <Loading />;
 
   return (
     <div className="">
       <div className="flex justify-between relative">
+        {/* Emoji Picker */}
         <div className="md:flex justify-between items-start">
-          {/* emoji picker */}
           <EmojiPicker icon={project?.icon} onChange={iconHandler} />
           <div className="">
             <h3 className="text-3xl text-light_primary dark:text-dark_primary italic capitalize mb-2">
@@ -108,6 +106,7 @@ const Project = ({ params }: { params: any }) => {
             </p>
           </div>
         </div>
+
         <div className="absolute top-0 right-0">
           <IconButton color="primary">
             <MdOutlineModeEdit onClick={handleClickOpen} />
@@ -118,9 +117,10 @@ const Project = ({ params }: { params: any }) => {
         </div>
       </div>
 
-      {/* Section */}
+      {/* Sections */}
       <Section project={project} />
 
+      {/* Project Update Modal */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -163,8 +163,6 @@ const Project = ({ params }: { params: any }) => {
           </Form>
         </div>
       </Dialog>
-
-      {/* Sections */}
     </div>
   );
 };
