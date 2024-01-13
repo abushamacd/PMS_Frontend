@@ -61,11 +61,11 @@ const TaskModal = () => {
       >
         <div className="bg-light_secondary dark:bg-dark_secondary p-4 w-[300px] md:w-[600px]">
           <div className="absolute right-0 top-0">
-            <IconButton color="error">
-              <MdDeleteForever
-                className=""
-                onClick={() => deleteHandler(task?.data?.id)}
-              />
+            <IconButton
+              onClick={() => deleteHandler(task?.data?.id)}
+              color="error"
+            >
+              <MdDeleteForever className="" />
             </IconButton>
           </div>
           <p className="text-md text-light_primary dark:text-dark_primary italic capitalize mb-2 border-b ">

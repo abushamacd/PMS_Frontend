@@ -62,6 +62,7 @@ const Section = ({ project }: { project: any }) => {
     try {
       await createSection(data).unwrap();
       toast.success("Section create successfully");
+      setOpen(false);
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }
@@ -71,6 +72,7 @@ const Section = ({ project }: { project: any }) => {
     try {
       await updateSection({ id: edit?.data?.id, body: data }).unwrap();
       toast.success("Section updated successfully");
+      dispatch(setEdit({ data: null, state: false }));
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }
@@ -208,23 +210,25 @@ const Section = ({ project }: { project: any }) => {
                         {section?.title}
                       </p>
                       <div className="">
-                        <IconButton color="success">
-                          <MdOutlineAddBox
-                            onClick={() => {
-                              createTaskHandle(section);
-                            }}
-                          />
+                        <IconButton
+                          onClick={() => {
+                            createTaskHandle(section);
+                          }}
+                          color="success"
+                        >
+                          <MdOutlineAddBox />
                         </IconButton>
-                        <IconButton color="primary">
-                          <MdOutlineModeEdit
-                            onClick={() => openEdit(section)}
-                          />
+                        <IconButton
+                          onClick={() => openEdit(section)}
+                          color="primary"
+                        >
+                          <MdOutlineModeEdit />
                         </IconButton>
-                        <IconButton color="error">
-                          <MdDeleteForever
-                            className=""
-                            onClick={() => deleteHandler(section?.id)}
-                          />
+                        <IconButton
+                          onClick={() => deleteHandler(section?.id)}
+                          color="error"
+                        >
+                          <MdDeleteForever className="" />
                         </IconButton>
                       </div>
                     </div>

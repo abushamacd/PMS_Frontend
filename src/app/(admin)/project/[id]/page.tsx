@@ -108,11 +108,11 @@ const Project = ({ params }: { params: any }) => {
         </div>
 
         <div className="absolute top-0 right-0">
-          <IconButton color="primary">
-            <MdOutlineModeEdit onClick={handleClickOpen} />
+          <IconButton onClick={handleClickOpen} color="primary">
+            <MdOutlineModeEdit />
           </IconButton>
-          <IconButton color="error">
-            <MdDeleteForever onClick={() => deleteHandler(id)} />
+          <IconButton onClick={() => deleteHandler(id)} color="error">
+            <MdDeleteForever />
           </IconButton>
         </div>
       </div>
