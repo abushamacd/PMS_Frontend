@@ -31,8 +31,10 @@ export default function UploadImage() {
       reader.onload = async () => {
         setLoadImage(reader.result);
         const base64 = await reader.result;
+        const formData = new FormData();
+        formData.append("images", file as Blob);
         try {
-          const res = await updatePhoto({ photo: base64 }).unwrap();
+          const res = await updatePhoto(formData).unwrap();
           toast.success("Update photo");
         } catch (err: any) {
           toast.error(`${err.data?.message}`);

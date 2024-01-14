@@ -20,17 +20,18 @@ export const userApi = baseApi.injectEndpoints({
     }),
     updateProfile: build.mutation({
       query: (data: any) => ({
-        url: `/user/${data.id}`,
+        url: `/user/profile`,
         method: "PATCH",
         data: data.body,
       }),
       invalidatesTags: [tagTypes.profile],
     }),
     updatePhoto: build.mutation({
-      query: (body: any) => ({
+      query: (data: any) => ({
         url: `/user/photo`,
         method: "POST",
-        data: body,
+        data: data,
+        contentType: "multipart/form-data",
       }),
       invalidatesTags: [tagTypes.profile],
     }),

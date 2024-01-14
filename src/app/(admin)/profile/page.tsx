@@ -41,7 +41,7 @@ const Profile = () => {
     return <Loading />;
   }
   // @ts-ignore
-  const { name, phone, email, address, photo } = userData?.response;
+  const { name, phone, email, address, role, url } = userData?.response;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -90,7 +90,7 @@ const Profile = () => {
             className="rounded-full mx-auto mb-4 border-2 border-light_primary dark:border-dark_primary"
             width={150}
             height={150}
-            src={photo?.url || "https://i.ibb.co/MgsTCcv/avater.jpg"}
+            src={url || "https://i.ibb.co/MgsTCcv/avater.jpg"}
             alt="profile"
           />
           <div className="edit absolute right-5 top-2">
@@ -111,7 +111,7 @@ const Profile = () => {
           {name}
         </h4>
         <p className="text-light_text dark:text-dark_text text-center lowercase">
-          {email}
+          {role}
         </p>
       </div>
       <Dialog

@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  Dialog,
-  Divider,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Card, Dialog, Divider, IconButton, Typography } from "@mui/material";
 import { useTheme } from "next-themes";
 import FormInput from "../Forms/FormInput";
 import Form from "../Forms/Form";
@@ -83,7 +76,7 @@ const Section = ({ project }: { project: any }) => {
   const deleteHandler = async (id: string) => {
     try {
       await deleteSection(id);
-      toast.success("Project deleted successfully");
+      toast.success("Section deleted successfully");
     } catch (err: any) {
       toast.error(`${err.data?.message}`);
     }
@@ -283,7 +276,7 @@ const Section = ({ project }: { project: any }) => {
               <FormInput
                 name="title"
                 type="text"
-                placeholder="Type section title"
+                placeholder="Ex: To do, Running, Done"
                 label="Section Title"
                 required
               />
