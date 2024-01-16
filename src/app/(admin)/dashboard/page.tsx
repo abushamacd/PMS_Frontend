@@ -6,7 +6,8 @@ import PageHeading from "@/components/UI/PageHeading";
 import { useCreateProjectMutation } from "@/redux/api/projectApi";
 import { projectSchema } from "@/schemas/project";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Dialog } from "@mui/material";
+import { Card, Dialog, Divider } from "@mui/material";
+import { useTheme } from "next-themes";
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -18,6 +19,7 @@ type projectFormValues = {
 };
 
 const Dashboard = () => {
+  const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const [createProject] = useCreateProjectMutation();
 
@@ -56,6 +58,42 @@ const Dashboard = () => {
           Add New
         </button>
       </div>
+      <Divider
+        className="py-1"
+        style={
+          theme === "light"
+            ? { borderBottom: `1px solid #2a7785` }
+            : { borderBottom: `1px solid #259FD9` }
+        }
+      />
+
+      <div className="statistics md:flex flex-wrap">
+        <div className="py-2 md:w-1/3">
+          <Card className="border-b p-[10px] mb-[10px] dark:!bg-dark_secondary dark:!text-dark_text dark:!border-b-dark_primary !bg-light_secondary !text-light_text !border-b-light_primary text-center">
+            <h3 className="text-4xl mb-4 text-light_primary dark:text-dark_primary">
+              Total User
+            </h3>
+            <p className="text-3xl">03</p>
+          </Card>
+        </div>
+        <div className="md:py-2 md:px-2 md:w-1/3">
+          <Card className="border-b p-[10px] mb-[10px] dark:!bg-dark_secondary dark:!text-dark_text dark:!border-b-dark_primary !bg-light_secondary !text-light_text !border-b-light_primary text-center">
+            <h3 className="text-4xl mb-4 text-light_primary dark:text-dark_primary">
+              Running Project
+            </h3>
+            <p className="text-3xl">03</p>
+          </Card>
+        </div>
+        <div className="py-2 md:w-1/3">
+          <Card className="border-b p-[10px] mb-[10px] dark:!bg-dark_secondary dark:!text-dark_text dark:!border-b-dark_primary !bg-light_secondary !text-light_text !border-b-light_primary text-center">
+            <h3 className="text-4xl mb-4 text-light_primary dark:text-dark_primary">
+              Finished Project
+            </h3>
+            <p className="text-3xl">03</p>
+          </Card>
+        </div>
+      </div>
+
       <Dialog
         open={open}
         onClose={handleClose}
