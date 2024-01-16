@@ -23,7 +23,7 @@ const SingUp = () => {
       const res = await signIn(data).unwrap();
       //@ts-ignore
       storeUserInfo({ accessToken: res?.accessToken });
-      router.push("/profile");
+      router.push("/dashboard");
       toast.success("Sign in successfully!");
     } catch (err: any) {
       toast.error(`${err.data?.message}`);

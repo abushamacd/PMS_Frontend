@@ -19,6 +19,7 @@ import ThemeSwitcher from "@/components/UI/ThemeSwitcher";
 import Notification from "@/components/UI/Notification";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import UserProfile from "@/components/UI/UserProfile";
 
 const drawerWidth: number = 240;
 
@@ -157,7 +158,12 @@ export default function DashboardLayout({
             {children}
           </div>
         </Container>
-        {toggle === "notification" && <Notification />}
+        {toggle === "notification" && (
+          <Notification toggle={toggle} setToggle={setToggle} />
+        )}
+        {toggle === "userProfile" && (
+          <UserProfile toggle={toggle} setToggle={setToggle} />
+        )}
       </Box>
     </Box>
   );

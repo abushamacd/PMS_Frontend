@@ -1,34 +1,30 @@
-import React from "react";
-import { MdOutlineCancel } from "react-icons/md";
+import { IconButton } from "@mui/material";
+import React, { ReactNode } from "react";
+import { FaRegCircleXmark } from "react-icons/fa6";
 
-const Notification = () => {
-  const currentColor = "red";
-
+const Notification = ({
+  toggle,
+  setToggle,
+}: {
+  toggle: any;
+  setToggle: any;
+}) => {
   return (
-    <div className="nav-item absolute right-5 md:right-40 top-16 bg-light_secondary dark:bg-dark_bg p-8 rounded-lg w-96">
+    <div className="nav-item absolute right-5 md:right-40 top-16 bg-light_secondary dark:bg-dark_secondary p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">
         <div className="flex gap-3">
-          <p
-            style={{ color: currentColor }}
-            className="font-semibold text-lg dark:text-gray-200"
-          >
+          <p className="font-semibold text-lg text-light_text dark:text-dark_text">
             Notifications
           </p>
-          <button
-            type="button"
-            className="text-white text-xs rounded p-1 px-2 bg-orange-theme "
-          >
-            {" "}
-            5 New
-          </button>
         </div>
-        {/* <Button
-          icon={<MdOutlineCancel />}
-          color={currentColor}
-          bgHoverColor="light-gray"
-          size="2xl"
-          borderRadius="50%"
-        /> */}
+
+        <IconButton
+          onClick={() => {
+            setToggle("");
+          }}
+        >
+          <FaRegCircleXmark className="dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300" />
+        </IconButton>
       </div>
       <div className="mt-5 ">
         {/* {chatData?.map((item, index) => (

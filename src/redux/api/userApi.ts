@@ -1,3 +1,4 @@
+import { IMeta, IUser } from "@/types";
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi";
 
@@ -14,6 +15,22 @@ export const userApi = baseApi.injectEndpoints({
       transformResponse: (response: any) => {
         return {
           response,
+        };
+      },
+      providesTags: [tagTypes.profile],
+    }),
+    getUsers: build.query({
+      query: (arg: Record<string, any>) => {
+        return {
+          url: "/user",
+          method: "GET",
+          params: arg,
+        };
+      },
+      transformResponse: (response: IUser[], meta: IMeta) => {
+        return {
+          users: response,
+          meta,
         };
       },
       providesTags: [tagTypes.profile],
@@ -42,4 +59,5 @@ export const {
   useGetUserProfileQuery,
   useUpdateProfileMutation,
   useUpdatePhotoMutation,
+  useGetUsersQuery,
 } = userApi;

@@ -32,6 +32,29 @@ export type IProject = {
   userId: string;
 };
 
+export type IUser = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: role;
+  phone: string;
+  address: string | null;
+  public_id: string | null;
+  url: string | null;
+  isActive: boolean;
+  activationToken: string | null;
+  passwordResetToken: string | null;
+  passwordChangeAt: Date | null;
+  createdAt: Date;
+};
+
+enum role {
+  User,
+  Admin,
+  Super_Admin,
+}
+
 export type ISection = {
   id: string;
   title: string;
