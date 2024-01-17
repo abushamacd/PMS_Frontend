@@ -10,7 +10,7 @@ const Notification = ({
   setToggle: any;
 }) => {
   return (
-    <div className="nav-item absolute right-5 md:right-40 top-16 bg-light_secondary dark:bg-dark_secondary p-8 rounded-lg w-96">
+    <div className="nav-item absolute right-5 md:right-40 top-16 bg-light_secondary dark:bg-dark_secondary p-8 rounded-lg md:w-96 w-64 border dark:!border-dark_primary !border-light_primary">
       <div className="flex justify-between items-center">
         <div className="flex gap-3">
           <p className="font-semibold text-lg text-light_text dark:text-dark_text">

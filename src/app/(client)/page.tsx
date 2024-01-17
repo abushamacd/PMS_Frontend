@@ -13,7 +13,7 @@ const HomePage = () => {
         Welcome to <span className="italic">Infinity</span>
       </h2>
       <p className="text-light_text dark:text-dark_text text-xl">
-        Have a good day
+        Have a good day 😊
       </p>
       <div className="flex justify-center mt-5">
         {userLoggedIn ? (

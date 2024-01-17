@@ -63,6 +63,7 @@ export const Sidebar = ({
 
   return (
     <Drawer
+      className="overflow-auto h-screen"
       sx={{}}
       // @ts-ignore
       bg={theme === "light" ? "#fff" : "#070E36"}

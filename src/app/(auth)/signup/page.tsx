@@ -8,6 +8,9 @@ import Link from "next/link";
 import { useSignUpMutation } from "@/redux/api/authApi";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Loading from "@/app/loading";
+import { getUserInfo, isLoggedIn } from "@/services/auth.service";
+import { useEffect, useState } from "react";
 
 type FormValues = {
   name: string;
@@ -17,8 +20,28 @@ type FormValues = {
 };
 
 const SingUp = () => {
-  const [signUp] = useSignUpMutation();
+  const userLoggedIn = isLoggedIn();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  //@ts-ignore
+  const { role } = getUserInfo();
+
+  const [signUp] = useSignUpMutation();
+
+  useEffect(() => {
+    if (!userLoggedIn) {
+      router.push("/signin");
+    } else {
+      if (role === "super_admin") {
+        router.push("");
+      }
+    }
+    setIsLoading(true);
+  }, [router, userLoggedIn, role, isLoading]);
+
+  if (!isLoading) {
+    return <Loading />;
+  }
 
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {

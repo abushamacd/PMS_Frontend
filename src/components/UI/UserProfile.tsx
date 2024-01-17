@@ -4,6 +4,7 @@ import { useGetUserProfileQuery } from "@/redux/api/userApi";
 import { removeUserInfo } from "@/services/auth.service";
 import { IconButton } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
@@ -32,7 +33,7 @@ const UserProfile = ({
   const { name, email, role, url } = userData?.response;
 
   return (
-    <div className="nav-item absolute right-5 md:right-40 top-16 bg-light_secondary dark:bg-dark_secondary p-8 rounded-lg w-96">
+    <div className="nav-item absolute right-5 md:right-40 top-16 bg-light_secondary dark:bg-dark_secondary p-8 rounded-lg md:w-96 w-64 border dark:!border-dark_primary !border-light_primary">
       <div className="flex justify-between items-center">
         <p className="font-semibold text-lg text-light_text dark:text-dark_text">
           User Profile
@@ -45,7 +46,7 @@ const UserProfile = ({
           <FaRegCircleXmark className="dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300" />
         </IconButton>
       </div>
-      <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
+      <div className="flex flex-col md:flex-row gap-5 items-center mt-6 border-color border-b-1 pb-6">
         <Image
           height={"94"}
           width={"94"}
@@ -53,7 +54,7 @@ const UserProfile = ({
           className="rounded-full h-24 w-24"
           src={url}
         />
-        <div>
+        <div className="md:text-start text-center">
           <p className="font-semibold text-xl dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300">
             {name}
           </p>
@@ -89,12 +90,20 @@ const UserProfile = ({
           </div>
         ))}
       </div> */}
-      <div className="mt-5">
+      <div className="mt-5 flex flex-col md:flex-row justify-between gap-2">
         <button
           onClick={logOut}
-          className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300 flex gap-2 items-center"
+          className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
         >
           Sign Out
+        </button>
+        <button
+          onClick={() => {
+            router.push("/signup");
+          }}
+          className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
+        >
+          Add User
         </button>
       </div>
     </div>

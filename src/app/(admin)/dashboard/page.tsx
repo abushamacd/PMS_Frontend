@@ -60,14 +60,22 @@ const projectTabelColumn = [
     cellClassName: "name-column--cell",
   },
   {
-    field: "desc",
-    headerName: "Description",
+    field: "manager",
+    headerName: "Project Manger",
     flex: 1,
+    // @ts-ignore
+    renderCell: ({ row: { manager } }) => {
+      return <p className="capitalize">{manager?.name} </p>;
+    },
   },
   {
     field: "onGoing",
     headerName: "Status",
     flex: 1,
+    // @ts-ignore
+    renderCell: ({ row: { onGoing } }) => {
+      return <p className=""> {onGoing === true ? "Running" : "Finished"}</p>;
+    },
   },
 ];
 
@@ -136,11 +144,11 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <div className="flex justify-between">
+      <div className="flex flex-col md:flex-row justify-between text-center">
         <PageHeading title="Dashboard" />
         <button
           onClick={handleClickOpen}
-          className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300 flex gap-2 items-center"
+          className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300 flex gap-2 items-center justify-center"
         >
           <IoCreate
             size="24"
@@ -192,10 +200,11 @@ const Dashboard = () => {
       </div>
 
       {/* data visualizaion */}
-      <h3 className="text-2xl mt-4 text-light_primary dark:text-dark_primary border-b">
-        User List
-      </h3>
+
       <div className="">
+        <h3 className="text-xl mt-4 text-light_primary dark:text-dark_primary border-b">
+          User List
+        </h3>
         <Box
           height="70vh"
           sx={{
@@ -228,7 +237,7 @@ const Dashboard = () => {
           }}
         >
           <DataGrid
-            className="dark:myclass"
+            className="w-[600px] md:w-auto overflow-auto"
             checkboxSelection
             rows={users}
             // @ts-ignore
@@ -238,7 +247,7 @@ const Dashboard = () => {
         </Box>
       </div>
       <div className="projects_table mt-10">
-        <h3 className="text-2xl mt-4 text-light_primary dark:text-dark_primary border-b">
+        <h3 className="text-xl mt-4 text-light_primary dark:text-dark_primary border-b">
           Project List
         </h3>
         <div className="">
@@ -274,7 +283,7 @@ const Dashboard = () => {
             }}
           >
             <DataGrid
-              className="dark:myclass"
+              className="w-[600px] md:w-auto overflow-auto"
               checkboxSelection
               rows={projects}
               // @ts-ignore

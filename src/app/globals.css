@@ -144,6 +144,3 @@ input:disabled {
 }
 
 /* data tabel */
-.myclass {
-  color: var(--dark_text) !important;
-}
