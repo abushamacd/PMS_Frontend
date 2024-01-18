@@ -87,7 +87,7 @@ const Profile = () => {
       <div className="md:w-1/5 w-full ">
         <div className="relative">
           <Image
-            className="rounded-full mx-auto mb-4 border-2 border-light_primary dark:border-dark_primary"
+            className="rounded-full mx-auto mb-4 border-2 border-light_primary dark:border-dark_primary w-[150px] h-[150px] "
             width={150}
             height={150}
             src={url || "https://i.ibb.co/MgsTCcv/avater.jpg"}
@@ -100,7 +100,7 @@ const Profile = () => {
               className="dark:text-dark_text text-light_text hover:dark:text-dark_primary hover:text-light_primary duration-300"
             />
           </div>
-          <div className="edit absolute right-[65px] bottom-1">
+          <div className="edit absolute right-[50px] bottom-1">
             <HiOutlineShieldCheck
               size="26"
               className="dark:bg-dark_bg  dark:text-dark_primary bg-light_secondary text-light_primary duration-300 rounded-full p-1"
