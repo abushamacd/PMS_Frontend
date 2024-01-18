@@ -1,10 +1,10 @@
 export const onGoingOptions = [
   {
-    label: "True",
+    label: "Running",
     value: true,
   },
   {
-    label: "False",
+    label: "Finished",
     value: false,
   },
 ];

@@ -19,9 +19,6 @@ import { SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoCreate } from "react-icons/io5";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 
 type projectFormValues = {
   title: string;

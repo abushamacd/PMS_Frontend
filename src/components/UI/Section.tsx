@@ -25,6 +25,7 @@ import {
   useUpdateTaskPositionMutation,
 } from "@/redux/api/taskApi";
 import TaskModal from "./TaskModal";
+import { getUserInfo } from "@/services/auth.service";
 
 type sectionFormValues = {
   title: string;
@@ -45,6 +46,8 @@ const Section = ({ project }: { project: any }) => {
   const [updateTaskPosition] = useUpdateTaskPositionMutation();
   const [deleteSection] = useDeleteSectionMutation();
   const [createTask] = useCreateTaskMutation();
+
+  const userInfo: any = getUserInfo();
 
   const sections = project?.sections;
 
@@ -85,6 +88,7 @@ const Section = ({ project }: { project: any }) => {
   const createTaskHandle = async (section: any) => {
     const data: any = {};
     data.sectionId = section?.id;
+    data.assignId = userInfo?.id;
     try {
       await createTask(data).unwrap();
       toast.success("Task create successfully");

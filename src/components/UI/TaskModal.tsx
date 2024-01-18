@@ -12,9 +12,17 @@ import {
   useDeleteTaskMutation,
   useUpdateTaskMutation,
 } from "@/redux/api/taskApi";
+import { useState } from "react";
+import { useGetUsersQuery } from "@/redux/api/userApi";
+import FormSelectField from "../Forms/FormSelectField";
 
 type updateValues = {
   title: string;
+};
+
+export type SelectOptions = {
+  label: string;
+  value: string;
 };
 
 const TaskModal = () => {
@@ -22,6 +30,23 @@ const TaskModal = () => {
   const [updateTask] = useUpdateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
   const { task } = useAppSelector((state) => state.site);
+
+  console.log(task);
+
+  const query: Record<string, any> = {};
+  const [size, setSize] = useState<number>(100);
+  query["limit"] = size;
+  const { data: userData, isLoading: userLoading } = useGetUsersQuery({
+    ...query,
+  });
+
+  // @ts-ignore
+  const users = userData?.users;
+
+  const userList = users?.map((user: { id: any; name: any }) => ({
+    value: user.id,
+    label: user.name,
+  }));
 
   const closeTask = () => {
     dispatch(setTask({ data: null, state: false }));
@@ -33,13 +58,14 @@ const TaskModal = () => {
   };
 
   const updateHandler: SubmitHandler<updateValues> = async (data: any) => {
-    try {
-      await updateTask({ id: task?.data?.id, body: data }).unwrap();
-      toast.success("Task updated successfully");
-      dispatch(setTask({ data: null, state: false }));
-    } catch (err: any) {
-      toast.error(`${err.data?.message}`);
-    }
+    console.log(data);
+    // try {
+    //   await updateTask({ id: task?.data?.id, body: data }).unwrap();
+    //   toast.success("Task updated successfully");
+    //   dispatch(setTask({ data: null, state: false }));
+    // } catch (err: any) {
+    //   toast.error(`${err.data?.message}`);
+    // }
   };
 
   const deleteHandler = async (id: string) => {
@@ -85,7 +111,15 @@ const TaskModal = () => {
             <div className="my-[10px]">
               <FormTextArea name="desc" label="Description" rows={4} required />
             </div>
-            <div className="my-[10px]"></div>
+            <div className="my-[10px]">
+              <FormSelectField
+                name="assignTo"
+                // @ts-ignore
+                options={userList as SelectOptions[]}
+                label="Assign To"
+                placeholder="Select"
+              />
+            </div>
             <button
               type="submit"
               className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
