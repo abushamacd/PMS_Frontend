@@ -53,7 +53,7 @@ const UserProfile = ({
           width={"94"}
           alt="user"
           className="rounded-full h-24 w-24"
-          src={url}
+          src={url || "https://i.ibb.co/MgsTCcv/avater.jpg"}
         />
         <div className="md:text-start text-center">
           <p className="font-semibold text-xl dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300">
