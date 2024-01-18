@@ -17,7 +17,7 @@ export const userApi = baseApi.injectEndpoints({
           response,
         };
       },
-      providesTags: [tagTypes.profile, tagTypes.task],
+      providesTags: [tagTypes.profile, tagTypes.user],
     }),
     getUsers: build.query({
       query: (arg: Record<string, any>) => {
@@ -43,12 +43,27 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.profile],
     }),
+    updateRole: build.mutation({
+      query: (data: any) => ({
+        url: `/user/changeRole`,
+        method: "PATCH",
+        data: data,
+      }),
+      invalidatesTags: [tagTypes.profile],
+    }),
     updatePhoto: build.mutation({
       query: (data: any) => ({
         url: `/user/photo`,
         method: "POST",
         data: data,
         contentType: "multipart/form-data",
+      }),
+      invalidatesTags: [tagTypes.profile],
+    }),
+    deleteUser: build.mutation({
+      query: (id: string) => ({
+        url: `/user/${id}`,
+        method: "DELETE",
       }),
       invalidatesTags: [tagTypes.profile],
     }),
@@ -60,4 +75,6 @@ export const {
   useUpdateProfileMutation,
   useUpdatePhotoMutation,
   useGetUsersQuery,
+  useUpdateRoleMutation,
+  useDeleteUserMutation,
 } = userApi;

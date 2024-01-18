@@ -8,11 +8,22 @@ import {
   useCreateProjectMutation,
   useGetProjectsQuery,
 } from "@/redux/api/projectApi";
-import { useGetUsersQuery } from "@/redux/api/userApi";
+import {
+  useDeleteUserMutation,
+  useGetUsersQuery,
+  useUpdateRoleMutation,
+} from "@/redux/api/userApi";
 import { useDebounced } from "@/redux/hooks";
 import { projectSchema } from "@/schemas/project";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Card, Dialog, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  Dialog,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
@@ -20,35 +31,12 @@ import toast from "react-hot-toast";
 import { IoCreate } from "react-icons/io5";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { getUserInfo } from "@/services/auth.service";
+import { MdDeleteForever } from "react-icons/md";
 
 type projectFormValues = {
   title: string;
   desc: string;
 };
-
-const userTabelColumn = [
-  {
-    field: "name",
-    headerName: "Name",
-    flex: 1,
-    cellClassName: "name-column--cell",
-  },
-  {
-    field: "phone",
-    headerName: "Phone Number",
-    flex: 1,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    flex: 1,
-  },
-  {
-    field: "role",
-    headerName: "Access Level",
-    flex: 1,
-  },
-];
 
 const projectTabelColumn = [
   {
@@ -81,6 +69,8 @@ const Dashboard = () => {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const [createProject] = useCreateProjectMutation();
+  const [updateRole] = useUpdateRoleMutation();
+  const [deleteUser] = useDeleteUserMutation();
   const { data: userData, isLoading: userLoading } = useGetUsersQuery({});
 
   // @ts-ignore
@@ -138,6 +128,82 @@ const Dashboard = () => {
       toast.error(`${err.data?.message}`);
     }
   };
+
+  const userTabelColumn = [
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "phone",
+      headerName: "Phone Number",
+      flex: 1,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 1,
+    },
+    {
+      field: "role",
+      headerName: "Access Level",
+      flex: 1,
+    },
+    {
+      field: "roleChange",
+      headerName: "Make Admin",
+      flex: 0.5,
+      // @ts-ignore
+      renderCell: ({ row: { role, id } }) => {
+        const handleChange = async () => {
+          try {
+            await updateRole({ id }).unwrap();
+            toast.success("Update Role");
+          } catch (err: any) {
+            toast.error(`${err.data?.message}`);
+          }
+        };
+        return (
+          <div className="">
+            {role !== "Super_Admin" && (
+              <input
+                checked={role === "Admin" ? true : false}
+                type="checkbox"
+                onChange={handleChange}
+              ></input>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      flex: 0.5,
+      // @ts-ignore
+      renderCell: ({ row: { role, id } }) => {
+        const deleteHandler = async (id: string) => {
+          try {
+            await deleteUser(id).unwrap();
+            toast.success("User deleted");
+          } catch (err: any) {
+            toast.error(`${err.data?.message}`);
+          }
+        };
+        return (
+          <div className="">
+            {role !== "Super_Admin" && (
+              <IconButton onClick={() => deleteHandler(id)} color="error">
+                <MdDeleteForever />
+              </IconButton>
+            )}
+          </div>
+        );
+      },
+    },
+  ];
 
   if (isLoading || userLoading) return <Loading />;
 
