@@ -31,7 +31,7 @@ const UserProfile = ({
     return <Loading />;
   }
   // @ts-ignore
-  const { name, email, role, url } = userData?.response;
+  const user: any = userData?.response;
 
   return (
     <div className="nav-item absolute right-5 md:right-40 top-16 bg-light_secondary dark:bg-dark_secondary p-8 rounded-lg md:w-96 w-64 border dark:!border-dark_primary !border-light_primary">
@@ -53,17 +53,17 @@ const UserProfile = ({
           width={"94"}
           alt="user"
           className="rounded-full h-24 w-24"
-          src={url || "https://i.ibb.co/MgsTCcv/avater.jpg"}
+          src={user?.url || "https://i.ibb.co/MgsTCcv/avater.jpg"}
         />
         <div className="md:text-start text-center">
           <p className="font-semibold text-xl dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300">
-            {name}
+            {user?.name}
           </p>
           <p className="text-gray-500 text-sm text-light_text dark:text-dark_text">
-            {role}
+            {user?.role}
           </p>
           <p className="text-gray-500 text-sm font-semibold text-light_text dark:text-dark_text">
-            {email}
+            {user?.email}
           </p>
         </div>
       </div>
