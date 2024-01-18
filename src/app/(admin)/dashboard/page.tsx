@@ -19,6 +19,7 @@ import { SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoCreate } from "react-icons/io5";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { getUserInfo } from "@/services/auth.service";
 
 type projectFormValues = {
   title: string;
@@ -84,6 +85,7 @@ const Dashboard = () => {
 
   // @ts-ignore
   const users: any = userData?.users;
+  const userInfo: any = getUserInfo();
 
   const query: Record<string, any> = {};
   const [page, setPage] = useState<number>(1);
@@ -143,16 +145,18 @@ const Dashboard = () => {
     <div className="dashboard">
       <div className="flex flex-col md:flex-row justify-between text-center">
         <PageHeading title="Dashboard" />
-        <button
-          onClick={handleClickOpen}
-          className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300 flex gap-2 items-center justify-center"
-        >
-          <IoCreate
-            size="24"
-            className="dark:text-dark_secondary text-light_secondary duration-300"
-          />
-          Add New
-        </button>
+        {(userInfo?.role === "Super_Admin" || userInfo?.role === "Admin") && (
+          <button
+            onClick={handleClickOpen}
+            className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6 rounded text-lg hover:opacity-80 duration-300 flex gap-2 items-center justify-center"
+          >
+            <IoCreate
+              size="24"
+              className="dark:text-dark_secondary text-light_secondary duration-300"
+            />
+            Add New
+          </button>
+        )}
       </div>
       <Divider
         className="py-1"

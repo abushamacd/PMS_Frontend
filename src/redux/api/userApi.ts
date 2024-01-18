@@ -17,7 +17,7 @@ export const userApi = baseApi.injectEndpoints({
           response,
         };
       },
-      providesTags: [tagTypes.profile],
+      providesTags: [tagTypes.profile, tagTypes.task],
     }),
     getUsers: build.query({
       query: (arg: Record<string, any>) => {

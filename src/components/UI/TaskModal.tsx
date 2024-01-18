@@ -13,11 +13,14 @@ import {
   useUpdateTaskMutation,
 } from "@/redux/api/taskApi";
 import { useState } from "react";
-import { useGetUsersQuery } from "@/redux/api/userApi";
+import { useGetUserProfileQuery, useGetUsersQuery } from "@/redux/api/userApi";
 import FormSelectField from "../Forms/FormSelectField";
+import { getUserInfo } from "@/services/auth.service";
 
 type updateValues = {
   title: string;
+  desc: string;
+  assignId: string;
 };
 
 export type SelectOptions = {
@@ -30,18 +33,17 @@ const TaskModal = () => {
   const [updateTask] = useUpdateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
   const { task } = useAppSelector((state) => state.site);
-
-  console.log(task);
+  const userInfo: any = getUserInfo();
 
   const query: Record<string, any> = {};
   const [size, setSize] = useState<number>(100);
   query["limit"] = size;
-  const { data: userData, isLoading: userLoading } = useGetUsersQuery({
+  const { data: usersData, isLoading: usersLoading } = useGetUsersQuery({
     ...query,
   });
 
   // @ts-ignore
-  const users = userData?.users;
+  const users = usersData?.users;
 
   const userList = users?.map((user: { id: any; name: any }) => ({
     value: user.id,
@@ -55,17 +57,17 @@ const TaskModal = () => {
   const defaultValues = {
     title: task?.data?.title || "",
     desc: task?.data?.desc || "",
+    assignId: task?.data?.assignId || "",
   };
 
   const updateHandler: SubmitHandler<updateValues> = async (data: any) => {
-    console.log(data);
-    // try {
-    //   await updateTask({ id: task?.data?.id, body: data }).unwrap();
-    //   toast.success("Task updated successfully");
-    //   dispatch(setTask({ data: null, state: false }));
-    // } catch (err: any) {
-    //   toast.error(`${err.data?.message}`);
-    // }
+    try {
+      await updateTask({ id: task?.data?.id, body: data }).unwrap();
+      toast.success("Task updated successfully");
+      dispatch(setTask({ data: null, state: false }));
+    } catch (err: any) {
+      toast.error(`${err.data?.message}`);
+    }
   };
 
   const deleteHandler = async (id: string) => {
@@ -86,14 +88,17 @@ const TaskModal = () => {
         aria-labelledby="customized-dialog-title"
       >
         <div className="bg-light_secondary dark:bg-dark_secondary p-4 w-[300px] md:w-[600px]">
-          <div className="absolute right-0 top-0">
-            <IconButton
-              onClick={() => deleteHandler(task?.data?.id)}
-              color="error"
-            >
-              <MdDeleteForever className="" />
-            </IconButton>
-          </div>
+          {(userInfo?.role === "Super_Admin" || userInfo?.role === "Admin") && (
+            <div className="absolute right-0 top-0">
+              <IconButton
+                onClick={() => deleteHandler(task?.data?.id)}
+                color="error"
+              >
+                <MdDeleteForever className="" />
+              </IconButton>
+            </div>
+          )}
+
           <p className="text-md text-light_primary dark:text-dark_primary italic capitalize mb-2 border-b ">
             Task of:{" "}
             {moment(task?.data?.createdAt).format("DD_MM_YYYY, h:mm A")}
@@ -113,19 +118,22 @@ const TaskModal = () => {
             </div>
             <div className="my-[10px]">
               <FormSelectField
-                name="assignTo"
+                name="assignId"
                 // @ts-ignore
                 options={userList as SelectOptions[]}
                 label="Assign To"
                 placeholder="Select"
               />
             </div>
-            <button
-              type="submit"
-              className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
-            >
-              Update
-            </button>
+            {(userInfo?.role === "Super_Admin" ||
+              userInfo?.role === "Admin") && (
+              <button
+                type="submit"
+                className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
+              >
+                Update
+              </button>
+            )}
           </Form>
         </div>
       </Dialog>

@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import { authKey } from "@/constants/storageKey";
 import { useGetUserProfileQuery } from "@/redux/api/userApi";
-import { removeUserInfo } from "@/services/auth.service";
+import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { IconButton } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +18,7 @@ const UserProfile = ({
   setToggle: any;
 }) => {
   const router = useRouter();
+  const userInfo: any = getUserInfo();
   const logOut = () => {
     removeUserInfo(authKey);
     toast.success("Sign out");
@@ -97,14 +98,16 @@ const UserProfile = ({
         >
           Sign Out
         </button>
-        <button
-          onClick={() => {
-            router.push("/signup");
-          }}
-          className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
-        >
-          Add User
-        </button>
+        {userInfo?.role === "Super_Admin" && (
+          <button
+            onClick={() => {
+              router.push("/signup");
+            }}
+            className="text-dark_text dark:text-dark_bg bg-light_primary dark:bg-dark_primary border-0 py-2 px-6  rounded text-lg hover:opacity-80 duration-300"
+          >
+            Add User
+          </button>
+        )}
       </div>
     </div>
   );

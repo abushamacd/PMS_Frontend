@@ -1,4 +1,11 @@
-import { Card, Dialog, Divider, IconButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  Dialog,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useTheme } from "next-themes";
 import FormInput from "../Forms/FormInput";
 import Form from "../Forms/Form";
@@ -26,6 +33,7 @@ import {
 } from "@/redux/api/taskApi";
 import TaskModal from "./TaskModal";
 import { getUserInfo } from "@/services/auth.service";
+import { useGetUserProfileQuery } from "@/redux/api/userApi";
 
 type sectionFormValues = {
   title: string;
@@ -46,6 +54,9 @@ const Section = ({ project }: { project: any }) => {
   const [updateTaskPosition] = useUpdateTaskPositionMutation();
   const [deleteSection] = useDeleteSectionMutation();
   const [createTask] = useCreateTaskMutation();
+  const { data: userData, isLoading: userLoading } = useGetUserProfileQuery({});
+  // @ts-ignore
+  const user: any = userData?.response;
 
   const userInfo: any = getUserInfo();
 
@@ -170,12 +181,14 @@ const Section = ({ project }: { project: any }) => {
   return (
     <>
       <div className="flex justify-between mt-2">
-        <p
-          onClick={handleCreateModal}
-          className="text-light_primary dark:text-dark_primary text-sm cursor-pointer"
-        >
-          Add Section
-        </p>
+        {(userInfo?.role === "Super_Admin" || userInfo?.role === "Admin") && (
+          <p
+            onClick={handleCreateModal}
+            className="text-light_primary dark:text-dark_primary text-sm cursor-pointer"
+          >
+            Add Section
+          </p>
+        )}
         <p className="text-light_text dark:text-dark_text text-sm">
           {project?.sections?.length} Sections
         </p>
@@ -206,28 +219,31 @@ const Section = ({ project }: { project: any }) => {
                       <p className="text-md text-light_primary dark:text-dark_primary italic capitalize mb-2 border-b ">
                         {section?.title}
                       </p>
-                      <div className="">
-                        <IconButton
-                          onClick={() => {
-                            createTaskHandle(section);
-                          }}
-                          color="success"
-                        >
-                          <MdOutlineAddBox />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => openEdit(section)}
-                          color="primary"
-                        >
-                          <MdOutlineModeEdit />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => deleteHandler(section?.id)}
-                          color="error"
-                        >
-                          <MdDeleteForever className="" />
-                        </IconButton>
-                      </div>
+                      {(userInfo?.role === "Super_Admin" ||
+                        userInfo?.role === "Admin") && (
+                        <div className="">
+                          <IconButton
+                            onClick={() => {
+                              createTaskHandle(section);
+                            }}
+                            color="success"
+                          >
+                            <MdOutlineAddBox />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => openEdit(section)}
+                            color="primary"
+                          >
+                            <MdOutlineModeEdit />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => deleteHandler(section?.id)}
+                            color="error"
+                          >
+                            <MdDeleteForever className="" />
+                          </IconButton>
+                        </div>
+                      )}
                     </div>
 
                     {/* tasks */}
@@ -239,7 +255,7 @@ const Section = ({ project }: { project: any }) => {
                       >
                         {(provided, snapshot) => (
                           <Card
-                            className="border-b p-[10px] mb-[10px] dark:!bg-dark_secondary dark:!text-dark_text dark:!border-b-dark_primary !bg-light_secondary !text-light_text !border-b-light_primary"
+                            className="border-b p-[10px] mb-[10px] dark:!bg-dark_secondary dark:!text-dark_text dark:!border-b-dark_primary !bg-light_secondary !text-light_text !border-b-light_primary flex justify-between items-center"
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
@@ -253,6 +269,17 @@ const Section = ({ project }: { project: any }) => {
                             <Typography>
                               {task.title === "" ? "Untitled" : task.title}
                             </Typography>
+                            <Avatar
+                              alt={`${user?.name}`}
+                              src={
+                                user?.tasks?.find(
+                                  (userTask: any) => userTask.id === task.id
+                                )
+                                  ? // @ts-ignore
+                                    `${user?.url}`
+                                  : "https://i.ibb.co/MgsTCcv/avater.jpg"
+                              }
+                            />
                           </Card>
                         )}
                       </Draggable>

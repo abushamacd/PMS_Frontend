@@ -18,6 +18,7 @@ import FormSelectField from "@/components/Forms/FormSelectField";
 import { onGoingOptions } from "@/constants/global";
 import { useRouter } from "next/navigation";
 import Section from "@/components/UI/Section";
+import { getUserInfo } from "@/services/auth.service";
 
 type updateValues = {
   title: string;
@@ -33,6 +34,7 @@ const Project = ({ params }: { params: any }) => {
   const { id } = params;
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const userInfo: any = getUserInfo();
   const { data, isLoading } = useGetProjectQuery(id);
   const [deleteProject] = useDeleteProjectMutation();
   const [updateProject] = useUpdateProjectMutation();
@@ -108,14 +110,16 @@ const Project = ({ params }: { params: any }) => {
           </div>
         </div>
 
-        <div className="absolute top-0 right-0">
-          <IconButton onClick={handleClickOpen} color="primary">
-            <MdOutlineModeEdit />
-          </IconButton>
-          <IconButton onClick={() => deleteHandler(id)} color="error">
-            <MdDeleteForever />
-          </IconButton>
-        </div>
+        {(userInfo?.role === "Super_Admin" || userInfo?.role === "Admin") && (
+          <div className="absolute top-0 right-0">
+            <IconButton onClick={handleClickOpen} color="primary">
+              <MdOutlineModeEdit />
+            </IconButton>
+            <IconButton onClick={() => deleteHandler(id)} color="error">
+              <MdDeleteForever />
+            </IconButton>
+          </div>
+        )}
       </div>
 
       {/* Sections */}
