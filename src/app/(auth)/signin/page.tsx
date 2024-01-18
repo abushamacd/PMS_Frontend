@@ -30,12 +30,21 @@ const SingUp = () => {
     }
   };
 
+  const defaultValues = {
+    email: process.env.NEXT_PUBLIC_SADMIN_EMAIL || "",
+    password: process.env.NEXT_PUBLIC_SADMIN_PASS || "",
+  };
+
   return (
     <div className="md:w-[400px] w-[300px]">
       <h1 className="text-2xl mb-2 text-center text-light_primary dark:text-dark_primary">
         Sign In
       </h1>
-      <Form submitHandler={onSubmit} resolver={yupResolver(signInSchema)}>
+      <Form
+        submitHandler={onSubmit}
+        defaultValues={defaultValues}
+        // resolver={yupResolver(signInSchema)}
+      >
         <div className="my-[10px]">
           <FormInput
             name="email"
