@@ -18,8 +18,7 @@ Infinity is a project management system. You can manage your project effectively
 
 ## Tools & Technologies:
 
-NextJS, TailwindCSS, Redux Toolkit, JWT, Material UI, Tailwind
-CSS, Stripe, Yup, React Hook From, React Beautiful DnD, ......
+NextJS, Redux Toolkit, JWT, Material UI, Tailwind CSS, Yup, React Hook From, React Beautiful DnD, ......
 
 ---
 
