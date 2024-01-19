@@ -1,11 +1,7 @@
 <hr>
 <hr>
 
-<a href="https://pms-shama.vercel.app/" style="display: flex; justify-content: center;" class="menu"><img height="250px" width="250px"
-            src="https://pms-shama.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdark_logo.dea83311.png&w=828&q=75"
-            alt="Squeak Cart"></a>
-
-<img src="https://i.ibb.co/wrnY3R1/thumbnail.png" alt="homepage">
+<a href="https://pms-shama.vercel.app/" style="display: flex; justify-content: center;" class="menu"><img src="https://i.ibb.co/wrnY3R1/thumbnail.png" alt="homepage"></a>
 
 ## Description:
 
