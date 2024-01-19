@@ -20,6 +20,7 @@ import Notification from "@/components/UI/Notification";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import UserProfile from "@/components/UI/UserProfile";
+import ProtectedRoute from "@/utils/ProtectedRoute";
 
 const drawerWidth: number = 240;
 
@@ -60,111 +61,113 @@ export default function DashboardLayout({
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar
-        className="!bg-light_bg dark:!bg-dark_bg"
-        position="absolute"
-        open={open}
-      >
-        <Toolbar
-          style={{ padding: "0px 10px " }}
-          sx={{
-            pr: "8px", // keep right padding when drawer closed
-          }}
+    <ProtectedRoute>
+      <Box sx={{ display: "flex" }}>
+        <AppBar
+          className="!bg-light_bg dark:!bg-dark_bg"
+          position="absolute"
+          open={open}
         >
-          <Link href="/">
-            <Typography
+          <Toolbar
+            style={{ padding: "0px 10px " }}
+            sx={{
+              pr: "8px", // keep right padding when drawer closed
+            }}
+          >
+            <Link href="/">
+              <Typography
+                sx={{
+                  marginRight: "10px",
+                  ...(open && { display: "none" }),
+                }}
+              >
+                {theme === "light" ? (
+                  <Image
+                    className="h-[40px] w-[50px]"
+                    alt="hero"
+                    src={light_icon}
+                  />
+                ) : (
+                  <Image
+                    className="h-[40px] w-[50px]"
+                    alt="hero"
+                    src={dark_icon}
+                  />
+                )}
+              </Typography>
+            </Link>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={toggleDrawer}
               sx={{
-                marginRight: "10px",
+                marginLeft: "10px",
                 ...(open && { display: "none" }),
               }}
             >
-              {theme === "light" ? (
-                <Image
-                  className="h-[40px] w-[50px]"
-                  alt="hero"
-                  src={light_icon}
-                />
-              ) : (
-                <Image
-                  className="h-[40px] w-[50px]"
-                  alt="hero"
-                  src={dark_icon}
-                />
-              )}
+              <ChevronRight className="dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300 border border-light_text hover:border-light_primary dark:hover:border-dark_text dark:border-dark_primary  rounded-full" />
+            </IconButton>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              {/* You can write here */}
             </Typography>
-          </Link>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={toggleDrawer}
-            sx={{
-              marginLeft: "10px",
-              ...(open && { display: "none" }),
-            }}
-          >
-            <ChevronRight className="dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300 border border-light_text hover:border-light_primary dark:hover:border-dark_text dark:border-dark_primary  rounded-full" />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1 }}
-          >
-            {/* You can write here */}
-          </Typography>
-          <Box display="flex">
-            <IconButton>
-              <ThemeSwitcher layout="admin" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setToggle("notification");
-              }}
-            >
-              <NotificationsOutlinedIcon className="dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setToggle("userProfile");
-              }}
-            >
-              <PersonOutlinedIcon className="dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300" />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Sidebar open={open} setOpen={setOpen} />
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          height: "100vh",
-          overflow: "auto",
-        }}
-      >
-        <Toolbar />
-        <Container
-          style={{ padding: "15px" }}
-          className="bg-light_secondary dark:bg-dark_secondary"
-          maxWidth="xl"
+            <Box display="flex">
+              <IconButton>
+                <ThemeSwitcher layout="admin" />
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  setToggle("notification");
+                }}
+              >
+                <NotificationsOutlinedIcon className="dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300" />
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  setToggle("userProfile");
+                }}
+              >
+                <PersonOutlinedIcon className="dark:text-dark_primary text-light_text hover:dark:text-dark_text hover:text-light_primary duration-300" />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <Sidebar open={open} setOpen={setOpen} />
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            height: "100vh",
+            overflow: "auto",
+          }}
         >
-          <div
-            style={{ height: `calc(100vh - 94px)` }}
-            className="bg-light_bg dark:bg-dark_bg rounded-lg p-4 overflow-auto"
+          <Toolbar />
+          <Container
+            style={{ padding: "15px" }}
+            className="bg-light_secondary dark:bg-dark_secondary"
+            maxWidth="xl"
           >
-            {children}
-          </div>
-        </Container>
-        {toggle === "notification" && (
-          <Notification toggle={toggle} setToggle={setToggle} />
-        )}
-        {toggle === "userProfile" && (
-          <UserProfile toggle={toggle} setToggle={setToggle} />
-        )}
+            <div
+              style={{ height: `calc(100vh - 94px)` }}
+              className="bg-light_bg dark:bg-dark_bg rounded-lg p-4 overflow-auto"
+            >
+              {children}
+            </div>
+          </Container>
+          {toggle === "notification" && (
+            <Notification toggle={toggle} setToggle={setToggle} />
+          )}
+          {toggle === "userProfile" && (
+            <UserProfile toggle={toggle} setToggle={setToggle} />
+          )}
+        </Box>
       </Box>
-    </Box>
+    </ProtectedRoute>
   );
 }

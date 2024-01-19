@@ -11,15 +11,14 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   //@ts-ignore
   const { role } = getUserInfo();
+  console.log(role);
 
   useEffect(() => {
     if (!userLoggedIn) {
       router.push("/signin");
     } else {
-      if (role === "admin" || role === "super_admin") {
+      if (role === "Admin" || role === "Super_Admin" || role === "User") {
         router.push("/dashboard");
-      } else {
-        router.push("/profile");
       }
     }
     setIsLoading(true);
