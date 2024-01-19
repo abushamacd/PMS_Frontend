@@ -11,7 +11,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   //@ts-ignore
   const { role } = getUserInfo();
-  console.log(role);
 
   useEffect(() => {
     if (!userLoggedIn) {
