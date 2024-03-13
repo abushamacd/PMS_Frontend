@@ -9,14 +9,15 @@ import toast from "react-hot-toast";
 import { useSignInMutation } from "@/redux/api/authApi";
 import { useRouter } from "next/navigation";
 import { storeUserInfo } from "@/services/auth.service";
+import Loading from "@/app/loading";
 
 type FormValues = {
   email: string;
   password: string;
 };
 
-const SingUp = () => {
-  const [signIn] = useSignInMutation();
+const SignIn = () => {
+  const [signIn, { isLoading }] = useSignInMutation();
   const router = useRouter();
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
@@ -34,6 +35,17 @@ const SingUp = () => {
     email: process.env.NEXT_PUBLIC_SADMIN_EMAIL || "",
     password: process.env.NEXT_PUBLIC_SADMIN_PASS || "",
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-5">
+        <Loading />
+        <p className="text-dark_primary italic">
+          Note: Site is hosted in free hosting, so it&apos;s maybe slow.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="md:w-[400px] w-[300px]">
@@ -81,4 +93,4 @@ const SingUp = () => {
     </div>
   );
 };
-export default SingUp;
+export default SignIn;
