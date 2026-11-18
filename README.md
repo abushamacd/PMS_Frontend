@@ -1,94 +1,238 @@
-<hr>
-<hr>
+# Infinity | Project Management System
 
-<a href="https://pms-shama.vercel.app/" style="display: flex; justify-content: center;" class="menu"><img src="https://i.ibb.co/wrnY3R1/thumbnail.png" alt="homepage"></a>
+Infinity is a full-stack project management application designed to help teams organize projects, manage tasks, and collaborate efficiently. It provides role-based access control, custom authentication, drag-and-drop task management, and user administration through an intuitive and interactive interface.
 
-## Description:
+## 🌐 Live Demo
 
-Infinity is a project management system. You can manage your project effectively. This project management system build in typescript language using NextJS v14 app rotuer. Here I use Redux-toolkit for state management, Tailwind CSS and Material Design for UI, React Beautiful DnD for drag and drop the task and project, Nodemailer for send email using gmail smtp, React hook from for input field, yup for validation, and Use the reuseable component.
+[**Visit Live Application →**](https://pms-shama.vercel.app)
 
-## Main Features:
+## 📸 Project Preview
 
-- Admin can add, update and delete new user.
-- Full custom authentication system using JsonWebToken (JWT)
-- User account active by email verification.
-- Admin can create, update and delete project and task.
-- Project and task are drag and dropable.
-- User can see user's task.
+<img src="https://i.ibb.co.com/Df9vynTg/pms.png" alt="homepage">
 
-## Tools & Technologies:
+## 🚀 Technologies Used
 
-NextJS, Redux Toolkit, JWT, Material UI, Tailwind CSS, Yup, React Hook From, React Beautiful DnD, ......
+The frontend is built using the following technologies:
 
----
+- **Next.js 14** – React framework with App Router for building the application.
+- **TypeScript** – Static typing for better code quality and maintainability.
+- **React 18** – Building reusable and interactive UI components.
+- **Redux Toolkit** – Centralized state management.
+- **Tailwind CSS** – Utility-first styling and responsive layouts.
+- **Material UI (MUI)** – Pre-built UI components and icons.
+- **React Beautiful DnD** – Drag-and-drop functionality for projects and tasks.
+- **Axios** – Handling HTTP requests and API communication.
+- **React Hook Form** – Efficient form handling.
+- **Yup** – Form validation and schema management.
+- **JWT Decode** – Decoding JSON Web Tokens.
+- **Moment.js** – Date and time formatting.
+- **React Hot Toast** – Displaying notifications and feedback.
+- **Next Themes** – Theme management.
+- **React Icons & Emoji Mart** – Icons and emoji selection.
 
-## Table of Contents
+## ✨ Key Features
 
-1. [Installation](#installation)
-1. [Dependencies](#dependencies)
-1. [Usage](#usage)
-1. [License](#license)
-1. [Authors](#authors)
-1. [Links](#links)
+- **Custom Authentication:** Secure authentication system using JSON Web Tokens (JWT).
+- **Email Verification:** Activate user accounts through email verification.
+- **Role-Based Access Control:** Different permissions for Super Admin, Admin, and regular users.
+- **User Management:** Super Admin can create, update, and delete user accounts.
+- **Project Management:** Create, view, update, and delete projects.
+- **Task Management:** Organize, assign, update, and delete tasks.
+- **Drag & Drop:** Easily rearrange projects and move tasks between sections using drag-and-drop functionality.
+- **Personal Task View:** Users can view and manage their assigned tasks.
+- **Form Validation:** Validate user input using React Hook Form and Yup.
+- **Reusable Components:** Maintainable and reusable UI components.
+- **Responsive Interface:** User-friendly interface designed for different screen sizes.
+- **Email Notifications:** Email communication handled through the backend using Nodemailer.
 
----
+## 📦 Dependencies
 
-> Note: All underscore sentence will be replace my your credentials
+The project uses the following major dependencies:
 
-## Installation
+| Package               | Purpose                                 |
+| --------------------- | --------------------------------------- |
+| `next`                | React framework and application routing |
+| `react`               | Building UI components                  |
+| `react-dom`           | Rendering React components              |
+| `typescript`          | Static type checking                    |
+| `@reduxjs/toolkit`    | Redux state management                  |
+| `react-redux`         | Connecting React with Redux             |
+| `@mui/material`       | Material UI components                  |
+| `@mui/icons-material` | Material UI icons                       |
+| `@mui/lab`            | Additional Material UI components       |
+| `@mui/x-data-grid`    | Data grid components                    |
+| `@emotion/react`      | CSS-in-JS styling                       |
+| `@emotion/styled`     | Styled components                       |
+| `tailwindcss`         | Utility-first CSS framework             |
+| `react-beautiful-dnd` | Drag-and-drop interactions              |
+| `axios`               | HTTP requests                           |
+| `react-hook-form`     | Form management                         |
+| `@hookform/resolvers` | Form validation integration             |
+| `yup`                 | Schema-based validation                 |
+| `jwt-decode`          | JWT decoding                            |
+| `moment`              | Date and time manipulation              |
+| `next-themes`         | Theme management                        |
+| `query-string`        | URL query string handling               |
+| `react-hot-toast`     | Toast notifications                     |
+| `react-icons`         | Icon library                            |
+| `emoji-mart`          | Emoji picker                            |
 
-Pre-requirements
+### Development Dependencies
 
-> Must be install node js, npm, yarn (optional) and typescript in your operation system.
+- `@types/node` – Node.js type definitions.
+- `@types/react` – React type definitions.
+- `@types/react-dom` – React DOM type definitions.
+- `@types/emoji-mart` – Emoji Mart type definitions.
+- `@types/react-beautiful-dnd` – Drag-and-drop type definitions.
+- `eslint` – JavaScript and TypeScript linting.
+- `eslint-config-next` – Next.js ESLint configuration.
+- `postcss` – CSS processing.
+- `autoprefixer` – CSS vendor prefixing.
+
+## 💻 Getting Started
+
+Follow these instructions to run the frontend application on your local machine.
+
+### Prerequisites
+
+Make sure you have installed:
+
+- [Node.js](https://nodejs.org/)
+- npm or Yarn
+- [Git](https://git-scm.com/)
+
+### 1. Clone the Repository
 
 ```bash
-# Clone the repository
 git clone https://github.com/abushamacd/PMS_Frontend.git
+```
 
-# Navigate to the project directory
+### 2. Navigate to the Project Directory
+
+```bash
 cd PMS_Frontend
+```
 
-# Install dependencies
+### 3. Install Dependencies
+
+```bash
 npm install
+```
 
-or
+Or using Yarn:
 
+```bash
 yarn install
-
 ```
 
-## Dependencies
+### 4. Configure Environment Variables
 
-Create .env.local named file in your project root folder and copy the below code
+Create a `.env.local` file in the root directory and add the following environment variable:
 
-```bash
-NEXT_PUBLIC_API_BASE_URL=your_app_backend_url
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
 ```
 
-> Note: for the backend your can follow the link - https://github.com/abushamacd/PMS_Backend.git
+Replace the URL with your deployed backend API URL when connecting to the production backend.
 
-## Usage
+**Note:** The backend application must be running and accessible for authentication and other API-dependent features to work.
 
-To run this project, run the following command.
+### 5. Start the Development Server
 
 ```bash
-# Start the server
 npm run dev
+```
 
-or
+Or using Yarn:
 
+```bash
 yarn dev
 ```
 
-## License
+The application will be available at:
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+```text
+http://localhost:3000
+```
 
-## Authors
+### 6. Build for Production
 
-- [Abu Shama](https://www.github.com/abushamacd)
+To create an optimized production build:
 
-## Links
+```bash
+npm run build
+```
 
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://imshama.com)
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/abushamacd)
+To start the production server:
+
+```bash
+npm run start
+```
+
+### 7. Run ESLint
+
+To check the code for linting issues:
+
+```bash
+npm run lint
+```
+
+## 🛠️ Why These Technologies?
+
+- **Next.js:** Selected for its powerful React-based architecture, App Router, and optimized application performance.
+- **TypeScript:** Used to improve code reliability, catch errors during development, and make the codebase easier to maintain.
+- **Redux Toolkit:** Provides centralized state management for authentication, projects, tasks, and other application data.
+- **Tailwind CSS:** Helps create responsive layouts and maintain consistent styling efficiently.
+- **Material UI:** Provides ready-to-use UI components and a consistent design system.
+- **React Beautiful DnD:** Makes project and task organization intuitive through drag-and-drop interactions.
+- **React Hook Form & Yup:** Simplify form handling and provide structured validation.
+- **Axios:** Makes communication with the backend REST API straightforward.
+
+## 🧩 Challenges & Solutions
+
+During the development of Infinity, several technical challenges were addressed:
+
+1. **Authentication & Authorization:** Implementing custom JWT-based authentication and handling different user roles required a structured approach to access control.
+
+2. **Role-Based User Management:** Managing different permissions for Super Admin, Admin, and regular users required separating administrative actions from standard user functionality.
+
+3. **Drag-and-Drop Functionality:** Implementing draggable projects and tasks required handling item positions, section changes, and synchronizing the updated order with the backend.
+
+4. **Global State Management:** Managing authentication, project data, and task information across multiple components required centralized state management using Redux Toolkit.
+
+5. **Form Validation:** Handling multiple forms with consistent validation was simplified using React Hook Form and Yup.
+
+6. **API Integration:** Connecting the frontend with the backend REST API required proper request handling, authentication tokens, and error feedback.
+
+7. **Reusable Component Architecture:** Building reusable components helped reduce code duplication and made the application easier to maintain.
+
+## 🎯 What I Learned
+
+Through this project, I gained practical experience in:
+
+- Developing applications with Next.js 14 and TypeScript.
+- Implementing custom JWT authentication.
+- Understanding role-based access control (RBAC).
+- Managing complex application state with Redux Toolkit.
+- Building interactive drag-and-drop interfaces.
+- Integrating frontend applications with REST APIs.
+- Implementing form validation using React Hook Form and Yup.
+- Developing reusable and scalable UI components.
+- Working with Material UI and Tailwind CSS together.
+- Structuring a full-stack application with separate frontend and backend repositories.
+
+## 🔗 Related Repositories & Links
+
+- **Live Application:** https://pms-shama.vercel.app
+- **Frontend Repository:** https://github.com/abushamacd/PMS_Frontend
+- **Backend Repository:** https://github.com/abushamacd/PMS_Backend
+
+## 👨‍💻 Author
+
+**Abu Shama**
+
+- GitHub: [@abushamacd](https://github.com/abushamacd)
+
+---
+
+⭐ If you find this project interesting, consider giving it a star!
